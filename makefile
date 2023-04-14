@@ -1,7 +1,7 @@
-CC		= gcc
-CFLAGS	= -Wall -O2 -g
-#LDFLAGS	= -lSDL -lm
-LDFLAGS	= -lglfw -lGLU -lGL -lm
+GCC		= g++
+CFLAGS	= -Wall -O3 -g
+# LDFLAGS	= -lglfw -lGLU -lGL -lm
+LIBDIR = -L/System/Library/Frameworks -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 BIN_DIR	= bin
 INC_DIR = -I include
@@ -14,15 +14,18 @@ OBJ_FILES 	= $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o, $(SRC_FILES))
 EXEC_BIN	= exec.out
 
 
-all : exec
+all : build
 
-exec : $(OBJ_FILES)
+run : build
+	./bin/exec.out
+
+build : $(OBJ_FILES)
 	@mkdir -p $(BIN_DIR)/
-	$(CC) -o $(BIN_DIR)/$(EXEC_BIN) $(OBJ_FILES) $(LDFLAGS)
+	$(GCC) -o $(BIN_DIR)/$(EXEC_BIN) $(OBJ_FILES) $(LIBDIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p "$(@D)"
-	$(CC) -c $< -o $@ $(CFLAGS) $(INC_DIR)
+	$(GCC) -c $< -o $@ $(CFLAGS) $(INC_DIR)
 
 clean :
 	rm -rf *~
