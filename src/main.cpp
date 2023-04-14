@@ -53,6 +53,32 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_P:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             break;
+
+// Pour voir la scène sous un autre angle, à supprimer à la fin
+        case GLFW_KEY_KP_9 :
+			if(dist_zoom<100.0f) dist_zoom*=1.1;
+			printf("Zoom is %f\n",dist_zoom);
+			break;
+		case GLFW_KEY_KP_3 :
+			if(dist_zoom>1.0f) dist_zoom*=0.9;
+			printf("Zoom is %f\n",dist_zoom);
+			break;
+		case GLFW_KEY_UP :
+			if (phy>2) phy -= 2;
+			printf("Phy %f\n",phy);
+			break;
+		case GLFW_KEY_DOWN :
+			if (phy<=88.) phy += 2;
+			printf("Phy %f\n",phy);
+			break;
+		case GLFW_KEY_LEFT :
+			theta -= 5;
+			break;
+		case GLFW_KEY_RIGHT :
+			theta += 5;
+			break;
+//
+
         default:
             fprintf(stdout, "Touche \"%d\" non gérée\n", key);
         }
@@ -105,6 +131,10 @@ int main(int argc, char **argv)
 
         /* RENDER HERE */
 
+        // Mur de droite
+        Wall wall_right = {0.0f, 1.0f, 1.0f, 1.0f, 100, 200, 300};
+        render_wall_right(wall_right);
+        
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
