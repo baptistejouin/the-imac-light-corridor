@@ -131,9 +131,9 @@ int main(int argc, char **argv)
 
         /* RENDER HERE */
 
-        // Mur de droite
-        Wall wall_right = {0.0f, 1.0f, 1.0f, 1.0f, 100, 200, 300};
-        render_wall_right(wall_right);
+        // Création des murs
+        Wall wall_right = {0.0f, 1.0f, 1.0f, 1.0f, 0.5,0.5,0,0.5,0.5, 0.5};
+        draw_wall(wall_right);
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

@@ -1,26 +1,28 @@
 #include "draw_scene.h"
 
-// Initialiser la couleur du mur
-Wall wall_right = {0.0f, 1.0f, 1.0f, 1.0f, 100, 200, 300}; //TODO
-
-// wall_right.c.r = 0.0f;
-// wall_right.c.g = 0.0f;
-// wall_right.c.b = 1.0f;
-// wall_right.c.a = 1.0f;
-// wall_right.pos = 100;     // Position du mur
-// wall_right.largeur = 200; // Largeur du mur
-// wall_right.hauteur = 300; // Hauteur du mur
-
-void render_wall_right(Wall wall_right)
+void draw_wall(Wall wall_right)
 {
+    /* SOL */
     // Définir la couleur de dessin en bleu
-    glColor4f(0.0f, 1.0f, 1.0f, 1.0f); //TODO 
+    glColor4f(wall_right.c.r, wall_right.c.g, wall_right.c.b, wall_right.c.a);
 
-    // Dessiner un rectangle pour représenter le mur
+    // Dessiner un rectangle pour représenter le sol
     glBegin(GL_QUADS);
     glVertex3f(wall_right.pos_x, wall_right.pos_y, wall_right.pos_z);
     glVertex3f(wall_right.pos_x + wall_right.largeur, wall_right.pos_y, wall_right.pos_z);
     glVertex3f(wall_right.pos_x + wall_right.largeur, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z);
     glVertex3f(wall_right.pos_x, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z);
+    glEnd();
+
+    /* PLAFOND */
+    // Définir la couleur de dessin en bleu + 0.2f 
+    glColor4f(wall_right.c.r, wall_right.c.g, wall_right.c.b + 0.2f , wall_right.c.a); //TODO
+
+    // Dessiner un rectangle pour représenter le plafond
+    glBegin(GL_QUADS);
+    glVertex3f(wall_right.pos_x, wall_right.pos_y, wall_right.pos_z + wall_right.profondeur);
+    glVertex3f(wall_right.pos_x , wall_right.pos_y, wall_right.pos_z + wall_right.profondeur);
+    glVertex3f(wall_right.pos_x + wall_right.largeur, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z + wall_right.profondeur);
+    glVertex3f(wall_right.pos_x, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z + wall_right.profondeur);
     glEnd();
 }

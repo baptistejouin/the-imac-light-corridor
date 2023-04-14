@@ -17,7 +17,7 @@ typedef struct Wall
 {
     Color c;
     float pos_x, pos_y, pos_z;
-    float largeur, hauteur;
+    float largeur, hauteur, profondeur;
 } Wall;
 
-void render_wall_right(Wall wall);
+void draw_wall(Wall wall);
