@@ -86,6 +86,7 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 }
 
 int main(int argc, char **argv)
+
 {
     /* GLFW initialisation */
     GLFWwindow *window;
@@ -131,9 +132,7 @@ int main(int argc, char **argv)
 
         /* RENDER HERE */
 
-        // Création des murs
-        Wall wall_right = {0.0f, 1.0f, 1.0f, 1.0f, 0.5,0.5,0,0.5,0.5, 0.5};
-        draw_wall(wall_right);
+        drawScene();
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
