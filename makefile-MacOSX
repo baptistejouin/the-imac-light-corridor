@@ -1,7 +1,7 @@
 GCC		= g++
 CFLAGS	= -Wall -O3 -g
-LIBDIR	= -lglfw -lGLU -lGL -lm
-# LIBDIR = -L/System/Library/Frameworks -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+# LIBDIR = -lglfw -lGLU -lGL -lm
+LIBDIR = -L/System/Library/Frameworks -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 
 BIN_DIR	= bin
 INC_DIR = -I include
