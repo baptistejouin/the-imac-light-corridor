@@ -21,3 +21,4 @@ typedef struct Wall
 } Wall;
 
 void draw_wall(Wall wall);
+void drawScene();
