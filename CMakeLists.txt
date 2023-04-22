@@ -28,3 +28,33 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glfw)
 
 # Définition du chemin de sortie de l'exécutable
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+
+# Définition d'une règle de construction pour exécuter le programme
+add_custom_target(run
+    COMMAND ${PROJECT_NAME}
+    DEPENDS ${PROJECT_NAME}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Exécution de ${PROJECT_NAME}"
+)
+
+# Ajout d'une règle de construction pour le programme
+add_custom_target(build
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+    DEPENDS ${PROJECT_NAME}
+    COMMENT "Construction de ${PROJECT_NAME}"
+)
+
+# Ajout d'une commande pour compiler et exécuter le programme
+add_custom_target(execute
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target ${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_CURRENT_SOURCE_DIR} ./bin/${PROJECT_NAME}
+    DEPENDS ${PROJECT_NAME}
+    COMMENT "Compilation et exécution de ${PROJECT_NAME}"
+)
+
+# Définition de la commande "make execute" pour exécuter le programme
+add_custom_target(make_execute
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target execute
+    DEPENDS execute
+    COMMENT "Compilation et exécution de ${PROJECT_NAME} avec make execute"
+)
