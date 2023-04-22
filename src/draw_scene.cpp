@@ -1,21 +1,47 @@
 #include "draw_scene.h"
 
-void draw_wall(Wall wall_right)
-{
-    glColor4f(wall_right.c.r, wall_right.c.g, wall_right.c.b, wall_right.c.a);
+static const unsigned int aspectRatio = 1280 / 720;
 
-    glBegin(GL_QUADS);
-    glVertex3f(wall_right.pos_x, wall_right.pos_y, wall_right.pos_z + wall_right.profondeur);
-    glVertex3f(wall_right.pos_x + wall_right.largeur, wall_right.pos_y, wall_right.pos_z + wall_right.profondeur);
-    glVertex3f(wall_right.pos_x + wall_right.largeur, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z + wall_right.profondeur);
-    glVertex3f(wall_right.pos_x, wall_right.pos_y + wall_right.hauteur, wall_right.pos_z + wall_right.profondeur);
-    glEnd();
+void drawWalls()
+{
+    glPushMatrix();
+
+    glTranslatef(0.0, 0.0, -0.5);
+
+    glPushMatrix();
+    glColor3f(1, 0, 0);
+    glTranslatef(0.0, 0.0, 0.0);
+    glScalef(2.0f, 4.0f * aspectRatio, 1.0f);
+    drawSquare();
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glScalef(2.0f, 4.0f * aspectRatio, 1.0f);
+    glTranslatef(0.0, 0.0, 1);
+    drawSquare();
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 0, 1);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(2.0f, 1.0f, 1.0f);
+    glTranslatef(0, 0.5, 2);
+    drawSquare();
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 1, 1);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(2.0f, 1.0f, 1.0f);
+    glTranslatef(0, 0.5, -2);
+    drawSquare();
+    glPopMatrix();
+
+    glPopMatrix();
 }
 
 void drawScene()
 {
-    Wall wall_ceilling = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f};
-    Wall wall_floor = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f};
-    draw_wall(wall_ceilling);
-    draw_wall(wall_floor);
+    drawWalls();
 }

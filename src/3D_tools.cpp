@@ -7,9 +7,9 @@ float dist_zoom = 1.0f; // Distance between origin and viewpoint
 
 void setCamera()
 {
-	gluLookAt(3,			  // x
+	gluLookAt(2,			  // x
 			  0,			  // y
-			  0.5,			  // z
+			  0,			  // z
 			  0.0, 0.0, 0.0,  // point visé
 			  0.0, 0.0, 1.0); // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
 }
