@@ -12,9 +12,10 @@ void draw_wall(Wall wall_right)
     glEnd();
 }
 
-void drawScene() {
-    Wall wall_ceilling = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f , 1.0f, 1.0f};
-    Wall wall_floor = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f , 1.0f, 0.0f};
+void drawScene()
+{
+    Wall wall_ceilling = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
+    Wall wall_floor = {0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f};
     draw_wall(wall_ceilling);
     draw_wall(wall_floor);
 }
