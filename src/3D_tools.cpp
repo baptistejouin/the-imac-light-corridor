@@ -7,7 +7,7 @@ float dist_zoom = 1.0f; // Distance between origin and viewpoint
 
 void setCamera()
 {
-	gluLookAt(2,			  // x
+	gluLookAt(1.5,			  // x
 			  0,			  // y
 			  0,			  // z
 			  0.0, 0.0, 0.0,  // point visé
