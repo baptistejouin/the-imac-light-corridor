@@ -4,8 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 
 #define NB_SEG_CIRCLE 64
