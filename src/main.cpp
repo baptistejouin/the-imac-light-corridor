@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "game.h"
 #include "3D_tools.h"
-#include "draw_scene.h"
 
 /* Window properties */
 static const unsigned int WINDOW_WIDTH = 1280;
@@ -131,6 +131,8 @@ int main(int argc, char **argv)
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
 
+    initGame();
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -146,8 +148,7 @@ int main(int argc, char **argv)
         setCamera();
 
         /* RENDER HERE */
-
-        drawScene();
+        gameLoop();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
