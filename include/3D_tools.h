@@ -4,8 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 
 #define NB_SEG_CIRCLE 64
@@ -20,7 +18,7 @@ extern float dist_zoom; // Distance between origin and viewpoint
 void setCamera();
 
 /* Draw cannonic objet functions */
-void drawSquare();
+void drawSquare(bool const filled = true);
 
 void drawCircle();
 

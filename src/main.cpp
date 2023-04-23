@@ -1,10 +1,11 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <GL/glu.h>
-#include <GL/gl.h>
+#include <OpenGL/glu.h>
+#include <OpenGL/gl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+
 #include "3D_tools.h"
 #include "draw_scene.h"
 
@@ -31,10 +32,20 @@ void onWindowResized(GLFWwindow *window, int width, int height)
 {
     aspectRatio = width / (float)height;
 
-    glViewport(0, 0, width, height);
+    // Récupérer le ratio de pixels
+    float pixelRatio;
+    glfwGetFramebufferSize(window, NULL, NULL);
+    glfwGetWindowContentScale(window, &pixelRatio, NULL);
+
+    // Définir la zone d'affichage OpenGL en prenant en compte le ratio de pixels
+    glViewport(0, 0, width * pixelRatio, height * pixelRatio);
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60.0, aspectRatio, Z_NEAR, Z_FAR);
+
+    // Utiliser l'aspectRatio et prendre en compte le ratio de pixels pour calculer la perspective
+    gluPerspective(60.0, aspectRatio * pixelRatio, Z_NEAR, Z_FAR);
+
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -53,6 +64,36 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_P:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             break;
+
+            // Pour voir la scène sous un autre angle, à supprimer à la fin
+        case GLFW_KEY_KP_9:
+            if (dist_zoom < 100.0f)
+                dist_zoom *= 1.1;
+            printf("Zoom is %f\n", dist_zoom);
+            break;
+        case GLFW_KEY_KP_3:
+            if (dist_zoom > 1.0f)
+                dist_zoom *= 0.9;
+            printf("Zoom is %f\n", dist_zoom);
+            break;
+        case GLFW_KEY_UP:
+            if (phy > 2)
+                phy -= 2;
+            printf("Phy %f\n", phy);
+            break;
+        case GLFW_KEY_DOWN:
+            if (phy <= 88.)
+                phy += 2;
+            printf("Phy %f\n", phy);
+            break;
+        case GLFW_KEY_LEFT:
+            theta -= 5;
+            break;
+        case GLFW_KEY_RIGHT:
+            theta += 5;
+            break;
+            //
+
         default:
             fprintf(stdout, "Touche \"%d\" non gérée\n", key);
         }
@@ -60,6 +101,7 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 }
 
 int main(int argc, char **argv)
+
 {
     /* GLFW initialisation */
     GLFWwindow *window;
@@ -104,6 +146,8 @@ int main(int argc, char **argv)
         setCamera();
 
         /* RENDER HERE */
+
+        drawScene();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
