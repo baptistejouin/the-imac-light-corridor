@@ -11,7 +11,7 @@ include_directories(include)
 
 # Recherche de la librairie GLFW3
 find_package(glfw3 REQUIRED)
-include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(${PROJECT_NAME} PRIVATE ${GLFW_INCLUDE_DIRS})
 
 # Recherche de la librairie OpenGL
 find_package(OpenGL REQUIRED)
