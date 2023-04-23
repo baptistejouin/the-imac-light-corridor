@@ -20,6 +20,7 @@ typedef struct Wall
 	GLfloat width, height, depth;
 } Wall;
 
-Color darkenColor(Color color, GLfloat amount);
 void drawWalls();
 void drawWall(Color color);
+void drawLines();
+void drawLine();

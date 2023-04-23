@@ -2,23 +2,6 @@
 
 static const unsigned int aspectRatio = 1280 / 720;
 
-Color darkenColor(Color color, GLfloat amount)
-{
-	// Calculate the new color values
-	GLfloat newR = color.r - amount;
-	GLfloat newG = color.g - amount;
-	GLfloat newB = color.b - amount;
-
-	// Clamp the values to make sure they stay within the 0-1 range
-	newR = std::max(newR, 0.0f);
-	newG = std::max(newG, 0.0f);
-	newB = std::max(newB, 0.0f);
-
-	// Create a new Color struct with the new values
-	Color newColor = {newR, newG, newB, color.a};
-	return newColor;
-}
-
 void drawWall(Color color)
 {
 	glPushMatrix();
@@ -60,17 +43,51 @@ void drawWall(Color color)
 
 void drawWalls()
 {
-	Color blueWall = {0.06f, 0.08f, 0.4f, 1.0f};
+	Color wallColor = {0.06f, 0.08f, 0.4f, 1.0f};
 
 	glPushMatrix();
 
-	drawWall(blueWall);
+	drawWall(wallColor);
 
 	for (size_t i = 0; i < 3; i++)
 	{
 		glTranslatef(-1, 0, 0);
-		blueWall.b += 0.1;
-		drawWall(blueWall);
+		wallColor.b += 0.1;
+		drawWall(wallColor);
+	}
+
+	glPopMatrix();
+}
+
+void drawLine()
+{
+	Color lineColor = {1.0f, 1.0f, 1.0f, 1.0f};
+
+	glPushMatrix();
+
+	glTranslatef(0.0, 0.0, -0.5);
+
+	glPushMatrix();
+	glColor4f(lineColor.r, lineColor.b, lineColor.b, lineColor.a);
+	glTranslatef(0.5, 0.0, 0.5);
+	glRotatef(90, 0.0, 1.0, 0.0);
+	glScalef(1.0f, 4.0f * aspectRatio, 1.0f);
+	drawSquare(false);
+	glPopMatrix();
+
+	glPopMatrix();
+}
+
+void drawLines()
+{
+	glPushMatrix();
+
+	drawLine();
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		glTranslatef(-1, 0, 0);
+		drawLine();
 	}
 
 	glPopMatrix();

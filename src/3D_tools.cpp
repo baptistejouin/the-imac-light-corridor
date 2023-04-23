@@ -20,9 +20,13 @@ float toRad(float deg)
 	return deg * M_PI / 180.0f;
 }
 
-void drawSquare()
+void drawSquare(bool const filled)
 {
-	glBegin(GL_TRIANGLE_FAN);
+	if (filled)
+		glBegin(GL_TRIANGLE_FAN);
+	else
+		glBegin(GL_LINE_LOOP);
+
 	glVertex3f(-0.5, -0.5, 0.0);
 	glVertex3f(0.5, -0.5, 0.0);
 	glVertex3f(0.5, 0.5, 0.0);
