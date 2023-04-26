@@ -1,7 +1,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <OpenGL/glu.h>
-#include <OpenGL/gl.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
