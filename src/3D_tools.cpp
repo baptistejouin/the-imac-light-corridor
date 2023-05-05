@@ -1,15 +1,14 @@
 #include "3D_tools.h"
 
-/* Camera parameters and functions */
-float theta = 45.0f;	// Angle between x axis and viewpoint
-float phy = 60.0f;		// Angle between z axis and viewpoint
-float dist_zoom = 1.0f; // Distance between origin and viewpoint
+float cam_x = 1.5f;
+float cam_y = 0.0f;
+float cam_z = 0.0f;
 
 void setCamera()
 {
-	gluLookAt(1.5,			  // x
-			  0,			  // y
-			  0,			  // z
+	gluLookAt(cam_x,		  // x
+			  cam_y,		  // y
+			  cam_z,		  // z
 			  0.0, 0.0, 0.0,  // point visé
 			  0.0, 0.0, 1.0); // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
 }
@@ -20,17 +19,17 @@ float toRad(float deg)
 	return deg * M_PI / 180.0f;
 }
 
-void drawSquare(bool const filled)
+void drawSquare(bool const filled, float const size)
 {
 	if (filled)
 		glBegin(GL_TRIANGLE_FAN);
 	else
 		glBegin(GL_LINE_LOOP);
 
-	glVertex3f(-0.5, -0.5, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
-	glVertex3f(0.5, 0.5, 0.0);
-	glVertex3f(-0.5, 0.5, 0.0);
+	glVertex3f(-size, -size, 0.0);
+	glVertex3f(size, -size, 0.0);
+	glVertex3f(size, size, 0.0);
+	glVertex3f(-size, size, 0.0);
 	glEnd();
 }
 

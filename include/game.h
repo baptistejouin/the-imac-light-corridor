@@ -1,3 +1,5 @@
+#pragma once
+
 #include "draw_scene.h"
 #include "ball.h"
 

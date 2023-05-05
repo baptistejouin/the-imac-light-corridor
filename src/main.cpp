@@ -64,36 +64,21 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_P:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             break;
-
-            // Pour voir la scène sous un autre angle, à supprimer à la fin
-        case GLFW_KEY_KP_9:
-            if (dist_zoom < 100.0f)
-                dist_zoom *= 1.1;
-            printf("Zoom is %f\n", dist_zoom);
+        case GLFW_KEY_O:
+            // only for debug
+            if (cam_x == 1.5f)
+            {
+                cam_x = 2.5f;
+                cam_y = 2.0f;
+                cam_z = 2.0f;
+            }
+            else
+            {
+                cam_x = 1.5f;
+                cam_y = 0.0f;
+                cam_z = 0.0f;
+            }
             break;
-        case GLFW_KEY_KP_3:
-            if (dist_zoom > 1.0f)
-                dist_zoom *= 0.9;
-            printf("Zoom is %f\n", dist_zoom);
-            break;
-        case GLFW_KEY_UP:
-            if (phy > 2)
-                phy -= 2;
-            printf("Phy %f\n", phy);
-            break;
-        case GLFW_KEY_DOWN:
-            if (phy <= 88.)
-                phy += 2;
-            printf("Phy %f\n", phy);
-            break;
-        case GLFW_KEY_LEFT:
-            theta -= 5;
-            break;
-        case GLFW_KEY_RIGHT:
-            theta += 5;
-            break;
-            //
-
         default:
             fprintf(stdout, "Touche \"%d\" non gérée\n", key);
         }
