@@ -133,7 +133,7 @@ int main(int argc, char **argv)
         setCamera();
 
         /* RENDER HERE */
-        gameLoop();
+        gameLoop(window);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

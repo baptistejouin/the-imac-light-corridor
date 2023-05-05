@@ -13,6 +13,11 @@ typedef struct Color
 	GLfloat r, g, b, a;
 } Color;
 
+typedef struct Cursor
+{
+	double x, y;
+} Cursor;
+
 typedef struct Coordinate
 {
 	GLfloat pos_x, pos_y, pos_z;

@@ -9,10 +9,13 @@ enum class GameStatus
 	IN_GAME
 };
 
-struct Game
+typedef struct Game
 {
 	GameStatus status;
-};
+} Game;
+
+extern Game game;
+extern Cursor *cursor;
 
 void initGame();
-void gameLoop();
+void gameLoop(GLFWwindow *window);
