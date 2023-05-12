@@ -3,7 +3,6 @@
 .vscode/
 /bin
 /build
-/third_party
 
 # CMAKE
 CMakeFiles/
