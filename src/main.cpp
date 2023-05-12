@@ -33,18 +33,18 @@ void onWindowResized(GLFWwindow *window, int width, int height)
     aspectRatio = width / (float)height;
 
     // Récupérer le ratio de pixels
-    float pixelRatio;
-    glfwGetFramebufferSize(window, NULL, NULL);
-    glfwGetWindowContentScale(window, &pixelRatio, NULL);
+    float xScale, yScale;
+    glfwGetWindowContentScale(window, &xScale, &yScale);
 
     // Définir la zone d'affichage OpenGL en prenant en compte le ratio de pixels
-    glViewport(0, 0, width * pixelRatio, height * pixelRatio);
+    glViewport(0, 0, width * xScale, height * yScale);
+    // fprintf(stderr, "yScale: %f\n", xScale);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
     // Utiliser l'aspectRatio et prendre en compte le ratio de pixels pour calculer la perspective
-    gluPerspective(60.0, aspectRatio * pixelRatio, Z_NEAR, Z_FAR);
+    gluPerspective(60.0, aspectRatio, Z_NEAR, Z_FAR);
 
     glMatrixMode(GL_MODELVIEW);
 }
