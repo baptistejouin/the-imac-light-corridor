@@ -11,13 +11,13 @@ void drawWall(Color color)
 	glPushMatrix();
 	glColor4f(color.r, color.b, color.b, color.a);
 	glTranslatef(0.0, 0.0, 0.0);
-	glScalef(1.0f, 4.0f * aspectRatio, 1.0f);
+	glScalef(1.0f, 2.0f , 1.0f);
 	drawSquare();
 	glPopMatrix();
 
 	glPushMatrix();
 	glColor4f(color.r, color.b, color.b, color.a);
-	glScalef(1.0f, 4.0f * aspectRatio, 1.0f);
+	glScalef(1.0f, 2.0f , 1.0f);
 	glTranslatef(0.0, 0.0, 1);
 	drawSquare();
 	glPopMatrix();
@@ -26,7 +26,7 @@ void drawWall(Color color)
 	glColor4f(color.r - 0.1, color.b - 0.1, color.b - 0.1, color.a);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	glScalef(1.0f, 1.0f, 1.0f);
-	glTranslatef(0, 0.5, 2);
+	glTranslatef(0, 0.5, 1.0f);
 	drawSquare();
 	glPopMatrix();
 
@@ -34,7 +34,7 @@ void drawWall(Color color)
 	glColor4f(color.r - 0.1, color.b - 0.1, color.b - 0.1, color.a);
 	glRotatef(90, 1.0, 0.0, 0.0);
 	glScalef(1.0f, 1.0f, 1.0f);
-	glTranslatef(0, 0.5, -2);
+	glTranslatef(0, 0.5, -1.0f);
 	drawSquare();
 	glPopMatrix();
 
@@ -71,7 +71,7 @@ void drawLine()
 	glColor4f(lineColor.r, lineColor.b, lineColor.b, lineColor.a);
 	glTranslatef(0.5, 0.0, 0.5);
 	glRotatef(90, 0.0, 1.0, 0.0);
-	glScalef(1.0f, 4.0f * aspectRatio, 1.0f);
+	glScalef(1.0f, 2.0f, 1.0f);
 	drawSquare(false);
 	glPopMatrix();
 
