@@ -1,3 +1,6 @@
-#include "walls.h"
+#pragma once
 
-void drawScene();
+#include "walls.h"
+#include "racket.h"
+
+void drawScene(Racket *racket);

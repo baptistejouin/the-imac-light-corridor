@@ -1,16 +1,7 @@
+#pragma once
+
 #include <algorithm>
-
-#include <3D_tools.h>
-
-typedef struct Color
-{
-	GLfloat r, g, b, a;
-} Color;
-
-typedef struct Coordinate
-{
-	GLfloat pos_x, pos_y, pos_z;
-} Coordinate;
+#include "3D_tools.h"
 
 // Structure pour les murs
 typedef struct Wall

@@ -1,7 +1,8 @@
 #include "draw_scene.h"
 
-void drawScene()
+void drawScene(Racket *racket)
 {
     drawWalls();
     drawLines();
+    drawRacket(racket);
 }
