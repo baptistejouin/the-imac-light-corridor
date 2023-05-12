@@ -16,13 +16,9 @@ void drawRacket(Racket *racket)
 
 	glPushMatrix();
 
-	glBegin(GL_LINE_LOOP);
-
 	glColor4f(lineColor.r, lineColor.b, lineColor.b, lineColor.a);
 
 	drawSquare(false, racket->size);
-
-	glEnd();
 
 	glPopMatrix();
 

@@ -2,8 +2,8 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <OpenGL/glu.h>
-#include <OpenGL/gl.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <math.h>
 
 #define NB_SEG_CIRCLE 64
