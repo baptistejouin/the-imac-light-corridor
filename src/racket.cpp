@@ -38,14 +38,12 @@ void moveRacket(Racket *racket, Cursor *cursor)
 	// std::cout << "pos_z" << pos_z << std::endl;
 
 	// récup les coordinées du rectangle au premier plan, puis vérifier si la raket sort du rectangle, si oui, on bloque la raket
-	// if (pos_z > 0.37 || pos_z < -0.37)
-	// {
-	// 	pos_z = racket->coordinate.pos_z;
-	// }
-	// if (pos_y > 0.37 || pos_y < -0.37)
-	// {
-	// 	pos_y = racket->coordinate.pos_y;
-	// }
-	racket->coordinate.pos_y = pos_y;
-	racket->coordinate.pos_z = pos_z;
+	if (!(pos_y > (10 - racket->size) || pos_y < (-10 + racket->size)))
+	{
+		racket->coordinate.pos_y = pos_y;
+	}
+	if (!(pos_z > (5.5 - racket->size) || pos_z < (-4.5 + racket->size)))
+	{
+		racket->coordinate.pos_z = pos_z;
+	}
 }

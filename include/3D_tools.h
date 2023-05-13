@@ -34,7 +34,7 @@ extern float cam_z;
 void setCamera();
 
 /* Draw cannonic objet functions */
-void drawSquare(bool const filled = true, float const size);
+void drawSquare(bool const filled = true, float const size = 1.0f);
 
 void drawCircle();
 
