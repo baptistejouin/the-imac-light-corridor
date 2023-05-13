@@ -18,10 +18,6 @@ static float aspectRatio = 1.0;
 /* Minimal time wanted between two images */
 static const double FRAMERATE_IN_SECONDS = 1. / 30.;
 
-/* Virtual windows space */
-// Space is defined in interval -1 and 1 on x and y axes
-static const float GL_VIEW_SIZE = 20.;
-
 /* Error handling function */
 void onError(int error, const char *description)
 {
@@ -61,15 +57,15 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
             break;
         case GLFW_KEY_O:
             // only for debug
-            if (cam_x == 1.5f)
+            if (cam_x == 0.0f)
             {
-                cam_x = 2.5f;
-                cam_y = 2.0f;
-                cam_z = 2.0f;
+                cam_x = 2.0f;
+                cam_y = 15.0f;
+                cam_z = 15.0f;
             }
             else
             {
-                cam_x = 1.5f;
+                cam_x = 0.0f;
                 cam_y = 0.0f;
                 cam_z = 0.0f;
             }
@@ -104,6 +100,7 @@ int main(int argc, char **argv)
     glfwMakeContextCurrent(window);
 
     glfwSetWindowSizeCallback(window, onWindowResized);
+    glfwSetWindowAspectRatio(window, 16, 9);
     glfwSetKeyCallback(window, onKey);
 
     onWindowResized(window, WINDOW_WIDTH, WINDOW_HEIGHT);
