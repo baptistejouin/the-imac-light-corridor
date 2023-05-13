@@ -38,7 +38,7 @@ void drawSquare(bool const filled = true, float const size = 1.0f);
 
 void drawCircle();
 
-void drawSphere();
+void drawSphere(float const size = 1.0f);
 
 /* Small tools */
 float toRad(float deg);

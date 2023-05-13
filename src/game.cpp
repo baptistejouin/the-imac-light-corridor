@@ -3,6 +3,7 @@
 Game game = {GameStatus::MENU};
 Racket *racket = new Racket;
 Cursor *cursor = new Cursor;
+Ball *ball = new Ball;
 
 void initGame()
 {
@@ -15,6 +16,10 @@ void initGame()
 
 	cursor->x = 0.0f;
 	cursor->y = 0.0f;
+
+	ball->coordinate.pos_x = -15.0f;
+	ball->coordinate.pos_y = 0.0f;
+	ball->coordinate.pos_z = 0.0f;
 }
 
 void gameLoop(GLFWwindow *window)
@@ -23,9 +28,9 @@ void gameLoop(GLFWwindow *window)
 
 	if (game.status == GameStatus::IN_GAME)
 	{
-		drawScene(racket);
+		drawScene(racket, ball);
 
 		moveRacket(racket, cursor);
-		// moveBall();
+		moveBall(ball);
 	}
 }

@@ -16,7 +16,7 @@ static const char WINDOW_TITLE[] = "The IMAC light corridor";
 static float aspectRatio = 1.0;
 
 /* Minimal time wanted between two images */
-static const double FRAMERATE_IN_SECONDS = 1. / 30.;
+static const double FRAMERATE_IN_SECONDS = 1. / 120.;
 
 /* Error handling function */
 void onError(int error, const char *description)

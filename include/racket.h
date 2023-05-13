@@ -1,7 +1,5 @@
 #pragma once
 
-#include <math.h>
-
 #include "3D_tools.h"
 
 typedef struct Racket
