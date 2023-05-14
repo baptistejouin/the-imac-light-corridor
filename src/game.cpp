@@ -24,13 +24,13 @@ void initGame()
 
 void gameLoop(GLFWwindow *window)
 {
-	glfwGetCursorPos(window, &cursor->x, &cursor->y);
 
 	if (game.status == GameStatus::IN_GAME)
 	{
-		drawScene(racket, ball);
-
+		glfwGetCursorPos(window, &cursor->x, &cursor->y);
 		moveRacket(racket, cursor);
 		moveBall(ball);
+
+		drawScene(racket, ball);
 	}
 }

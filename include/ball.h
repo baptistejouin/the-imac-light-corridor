@@ -1,6 +1,7 @@
 #pragma once
 
 #include "3D_tools.h"
+
 typedef struct Ball
 {
 	Coordinate coordinate;

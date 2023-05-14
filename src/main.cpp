@@ -10,8 +10,9 @@
 #include "3D_tools.h"
 
 /* Window properties */
-static const unsigned int WINDOW_WIDTH = 1280;
-static const unsigned int WINDOW_HEIGHT = 720;
+extern unsigned int WINDOW_WIDTH = 1280;
+extern unsigned int WINDOW_HEIGHT = 720;
+extern float FOV = 60.0f;
 static const char WINDOW_TITLE[] = "The IMAC light corridor";
 static float aspectRatio = 1.0;
 
@@ -35,7 +36,10 @@ void onWindowResized(GLFWwindow *window, int width, int height)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(60.0, aspectRatio, Z_NEAR, Z_FAR);
+    WINDOW_WIDTH = width;
+    WINDOW_HEIGHT = height;
+
+    gluPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
 
     glMatrixMode(GL_MODELVIEW);
 }

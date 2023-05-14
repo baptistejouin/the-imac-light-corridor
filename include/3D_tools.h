@@ -8,6 +8,10 @@
 
 #define NB_SEG_CIRCLE 64
 
+extern unsigned int WINDOW_WIDTH;
+extern unsigned int WINDOW_HEIGHT;
+extern float FOV;
+
 typedef struct Color
 {
 	GLfloat r, g, b, a;

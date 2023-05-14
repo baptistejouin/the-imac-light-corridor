@@ -21,7 +21,6 @@ void moveBall(Ball *ball)
 	}
 
 	ball->coordinate.pos_x -= speed_x;
-	std::cout << "pos_x" << ball->coordinate.pos_x << std::endl;
 
 	if (ball->coordinate.pos_x > -15)
 	{

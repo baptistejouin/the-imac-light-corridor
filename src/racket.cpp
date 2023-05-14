@@ -26,24 +26,42 @@ void drawRacket(Racket *racket)
 
 void moveRacket(Racket *racket, Cursor *cursor)
 {
-	int const width = 1280;
-	int const height = 720;
 	int const fov = 60;
 
-	// 10 for the translate ratio
-	float pos_y = (((cursor->x * 2 / width) - 1) * width / height) * tan(((fov * M_PI) / 180) / 2) * 10;
-	float pos_z = (-((cursor->y * 2 / height) - 1)) * tan(((fov * M_PI) / 180) / 2) * 10;
+	// 10 = distance from camera to racket
+	float pos_y = (((cursor->x * 2 / WINDOW_WIDTH) - 1) * WINDOW_WIDTH / WINDOW_HEIGHT) * tan(((fov * M_PI) / 180) / 2) * 10;
+	float pos_z = (-((cursor->y * 2 / WINDOW_HEIGHT) - 1)) * tan(((fov * M_PI) / 180) / 2) * 10;
 
-	// std::cout << "pos_y" << pos_y << std::endl;
-	// std::cout << "pos_z" << pos_z << std::endl;
-
-	// récup les coordinées du rectangle au premier plan, puis vérifier si la raket sort du rectangle, si oui, on bloque la raket
-	if (!(pos_y > (10 - racket->size) || pos_y < (-10 + racket->size)))
+	if (pos_y < (10 - racket->size))
 	{
-		racket->coordinate.pos_y = pos_y;
+		if (pos_y > (-10 + racket->size))
+		{
+			racket->coordinate.pos_y = pos_y;
+		}
+		else
+		{
+			racket->coordinate.pos_y = -10 + racket->size;
+		}
 	}
-	if (!(pos_z > (5.5 - racket->size) || pos_z < (-4.5 + racket->size)))
+	else
 	{
-		racket->coordinate.pos_z = pos_z;
+		racket->coordinate.pos_y = 10 - racket->size;
+	}
+
+	if (pos_z < (5.5 - racket->size))
+	{
+		if (pos_z > (-4.5 + racket->size))
+		{
+
+			racket->coordinate.pos_z = pos_z;
+		}
+		else
+		{
+			racket->coordinate.pos_z = -4.5 + racket->size;
+		}
+	}
+	else
+	{
+		racket->coordinate.pos_z = 5.5 - racket->size;
 	}
 }
