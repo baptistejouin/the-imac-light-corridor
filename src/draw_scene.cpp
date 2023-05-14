@@ -5,4 +5,5 @@ void drawScene(Racket *racket)
     drawWalls();
     drawLines();
     drawRacket(racket);
+    drawBall();
 }

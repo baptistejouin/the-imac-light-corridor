@@ -1,8 +1,10 @@
 #include "game.h"
+#include "ball.h"
 
 Game game = {GameStatus::MENU};
 Racket *racket = new Racket;
 Cursor *cursor = new Cursor;
+Ball ball;
 
 void initGame()
 {
@@ -32,5 +34,12 @@ void gameLoop(GLFWwindow *window)
 
 		moveRacket(racket, cursor);
 		moveBall();
+
+		if (!(ball.isSticky))
+		{
+			collision_walls();
+			collision_racket();
+		}
+		
 	}
 }

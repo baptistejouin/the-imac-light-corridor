@@ -8,4 +8,7 @@ typedef struct Ball
 	bool isSticky = true;
 } Ball;
 
+void drawBall();
 void moveBall();
+void collision_walls();
+void collision_racket();
