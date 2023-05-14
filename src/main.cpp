@@ -138,8 +138,10 @@ int main(int argc, char **argv)
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
 
-    Game *game = new Game;
+    // random seed
+    srand(time(0));
 
+    Game *game = new Game;
     initGame(game);
 
     /* Loop until the user closes the window */

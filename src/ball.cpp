@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "ball.h"
 
 float speed_x = .1;
