@@ -1,4 +1,4 @@
-#include "walls.h"
+#include "corridor.h"
 
 void drawWall(Color color)
 {

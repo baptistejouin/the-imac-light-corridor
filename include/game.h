@@ -6,7 +6,7 @@
 #include "draw_scene.h"
 #include "ball.h"
 #include "racket.h"
-#include "walls.h"
+#include "corridor.h"
 #include "obstacle.h"
 
 enum class GameStatus

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "walls.h"
+#include "corridor.h"
 #include "ball.h"
 #include "racket.h"
 #include "obstacle.h"
