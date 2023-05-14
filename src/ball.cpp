@@ -1,5 +1,4 @@
 #include "ball.h"
-#include <iostream>
 
 void drawBall(Ball *ball)
 {
@@ -11,16 +10,12 @@ void drawBall(Ball *ball)
 }
 void moveBall(Ball *ball)
 {
-	float speed_x = .1;
 
 	// todo: isSticky ?
 
-	if (ball->coordinate.pos_x < -30 || ball->coordinate.pos_x > -15)
+	if (ball->coordinate.pos_x < (-50 + ball->size) || ball->coordinate.pos_x > (-10 - ball->size))
 	{
-		speed_x = -speed_x;
+		ball->speed = -ball->speed;
 	}
-
-	ball->coordinate.pos_x -= speed_x;
-
-	std::cout << "ball x position: " << ball->coordinate.pos_x << std::endl;
+	ball->coordinate.pos_x -= ball->speed;
 }

@@ -27,7 +27,6 @@ void moveRacket(Racket *racket, Cursor *cursor)
 {
 	int const fov = 60;
 
-	// 10 = distance from camera to racket
 	float pos_y = (((cursor->x * 2 / WINDOW_WIDTH) - 1) * WINDOW_WIDTH / WINDOW_HEIGHT) * tan(((fov * M_PI) / 180) / 2) * CAMERA_ZOOM;
 	float pos_z = (-((cursor->y * 2 / WINDOW_HEIGHT) - 1)) * tan(((fov * M_PI) / 180) / 2) * CAMERA_ZOOM;
 

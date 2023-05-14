@@ -40,7 +40,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 		 *	Move the objects
 		 */
 		moveRacket(game->racket, game->cursor);
-		// moveObstacles(game->obstacles);
+		moveObstacles(game->obstacles);
 		moveBall(game->ball);
 		// todo: moveLines
 

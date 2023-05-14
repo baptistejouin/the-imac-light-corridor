@@ -9,6 +9,7 @@ typedef struct Obstacle
 {
 	Coordinate coordinate;
 	GLfloat size;
+	float speed = 0.1f;
 } Obstacle;
 
 void drawObstacle(Obstacle *obstacle);

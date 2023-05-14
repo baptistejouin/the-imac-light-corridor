@@ -5,9 +5,9 @@
 typedef struct Ball
 {
 	Coordinate coordinate;
-	double speed_x, speed_y, speed_z;
 	float size = 1.0f;
 	bool isSticky = true;
+	float speed = 0.1f;
 } Ball;
 
 void drawBall(Ball *ball);
