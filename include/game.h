@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "3D_tools.h"
-#include "draw_scene.h"
 #include "ball.h"
 #include "racket.h"
 #include "corridor.h"

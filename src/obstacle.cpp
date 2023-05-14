@@ -53,3 +53,20 @@ void addObstacle(std::vector<Obstacle *> *obstacles, int i)
 
 	obstacles->push_back(obstacle);
 }
+
+void moveObstacles(std::vector<Obstacle *> *obstacles)
+{
+	float speed_x = .1;
+
+	for (int i = 0; i < obstacles->size(); i++)
+	{
+		Obstacle *current = obstacles->at(i);
+
+		if (current->coordinate.pos_x < -30 || current->coordinate.pos_x > -15)
+		{
+			speed_x *= -1;
+		}
+
+		current->coordinate.pos_x -= speed_x;
+	}
+}

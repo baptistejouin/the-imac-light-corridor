@@ -40,7 +40,7 @@ void drawWall(Color color)
 	glPopMatrix();
 }
 
-void drawWalls()
+void drawCorridor()
 {
 	Color wallColor = {0.06f, 0.08f, 0.4f, 1.0f};
 

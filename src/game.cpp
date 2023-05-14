@@ -34,13 +34,24 @@ void gameLoop(GLFWwindow *window, Game *game)
 
 	if (game->status == GameStatus::IN_GAME)
 	{
-		// Get the cursor position
 		glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
 
+		/*
+		 *	Move the objects
+		 */
 		moveRacket(game->racket, game->cursor);
+		// moveObstacles(game->obstacles);
 		moveBall(game->ball);
-		// todo: moveObstacles(game->obstacles);
+		// todo: moveLines
 
-		drawScene(game->racket, game->ball, game->obstacles);
+		/*
+		 *	Draw the scene
+		 */
+		drawCorridor();
+		drawLines();
+		drawRacket(game->racket);
+		drawBall(game->ball);
+		drawObstacles(game->obstacles);
+		// todo: drawLives
 	}
 }

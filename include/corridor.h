@@ -11,7 +11,7 @@ typedef struct Wall
 	GLfloat width, height, depth;
 } Wall;
 
-void drawWalls();
+void drawCorridor();
 void drawWall(Color color);
 void drawLines();
 void drawLine();

@@ -14,3 +14,4 @@ typedef struct Obstacle
 void drawObstacle(Obstacle *obstacle);
 void drawObstacles(std::vector<Obstacle *> *obstacles);
 void addObstacle(std::vector<Obstacle *> *obstacles, int i);
+void moveObstacles(std::vector<Obstacle *> *obstacles);
