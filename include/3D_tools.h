@@ -8,6 +8,11 @@
 
 #define NB_SEG_CIRCLE 64
 
+extern unsigned int WINDOW_WIDTH;
+extern unsigned int WINDOW_HEIGHT;
+extern unsigned int CAMERA_ZOOM;
+extern float FOV;
+
 typedef struct Color
 {
 	GLfloat r, g, b, a;
@@ -34,11 +39,11 @@ extern float cam_z;
 void setCamera();
 
 /* Draw cannonic objet functions */
-void drawSquare(bool const filled = true, float const size = 0.5f);
+void drawSquare(bool const filled = true, float const size = 1.0f);
 
 void drawCircle();
 
-void drawSphere();
+void drawSphere(float const size = 1.0f);
 
 /* Small tools */
 float toRad(float deg);

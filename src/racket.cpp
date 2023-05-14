@@ -8,11 +8,9 @@ void drawRacket(Racket *racket)
 
 	glTranslatef(racket->coordinate.pos_x, racket->coordinate.pos_y, racket->coordinate.pos_z);
 
-	glTranslatef(.5, 0.0, 0);
+	glTranslatef(-10.0, 0.0, 0);
 
 	glRotatef(90, 0.0, 1.0, 0.0);
-
-	glScalef(0.25, .5, .5);
 
 	glPushMatrix();
 
@@ -27,6 +25,43 @@ void drawRacket(Racket *racket)
 
 void moveRacket(Racket *racket, Cursor *cursor)
 {
-	racket->coordinate.pos_y = (((cursor->x * 2 / 1280) - 1) * 1280 / 720) * tan(((60 * M_PI) / 180) / 2);
-	racket->coordinate.pos_z = (-((cursor->y * 2 / 720) - 1)) * tan(((60 * M_PI) / 180) / 2);
+	int const fov = 60;
+
+	// 10 = distance from camera to racket
+	float pos_y = (((cursor->x * 2 / WINDOW_WIDTH) - 1) * WINDOW_WIDTH / WINDOW_HEIGHT) * tan(((fov * M_PI) / 180) / 2) * CAMERA_ZOOM;
+	float pos_z = (-((cursor->y * 2 / WINDOW_HEIGHT) - 1)) * tan(((fov * M_PI) / 180) / 2) * CAMERA_ZOOM;
+
+	// todo: use the size of the corridor (to be defined in "game")
+	if (pos_y < (10 - racket->size))
+	{
+		if (pos_y > (-10 + racket->size))
+		{
+			racket->coordinate.pos_y = pos_y;
+		}
+		else
+		{
+			racket->coordinate.pos_y = -10 + racket->size;
+		}
+	}
+	else
+	{
+		racket->coordinate.pos_y = 10 - racket->size;
+	}
+
+	if (pos_z < (5.5 - racket->size))
+	{
+		if (pos_z > (-4.5 + racket->size))
+		{
+
+			racket->coordinate.pos_z = pos_z;
+		}
+		else
+		{
+			racket->coordinate.pos_z = -4.5 + racket->size;
+		}
+	}
+	else
+	{
+		racket->coordinate.pos_z = 5.5 - racket->size;
+	}
 }

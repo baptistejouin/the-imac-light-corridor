@@ -1,6 +1,10 @@
 #pragma once
 
-#include "walls.h"
-#include "racket.h"
+#include <vector>
 
-void drawScene(Racket *racket);
+#include "walls.h"
+#include "ball.h"
+#include "racket.h"
+#include "obstacle.h"
+
+void drawScene(Racket *racket, Ball *ball, std::vector<Obstacle *> *obstacles);

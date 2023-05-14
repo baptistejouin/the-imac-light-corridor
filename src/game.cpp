@@ -1,36 +1,46 @@
 #include "game.h"
 
-Game game = {GameStatus::MENU};
-Racket *racket = new Racket;
-Cursor *cursor = new Cursor;
-
-void initGame()
+void *initGame(Game *game)
 {
-	game.status = GameStatus::IN_GAME;
+	int nbObstacte = 1;
 
-	racket->coordinate.pos_x = 0.0f;
-	racket->coordinate.pos_y = 0.0f;
-	racket->coordinate.pos_z = 0.0f;
-	racket->size = 0.5f;
+	// TODO: When the menu is implemented, the game should start in the menu
+	game->status = GameStatus::IN_GAME;
+	game->ball = new Ball;
+	game->racket = new Racket;
+	game->obstacles = new std::vector<Obstacle *>;
+	game->cursor = new Cursor;
 
-	cursor->x = 0.0f;
-	cursor->y = 0.0f;
+	game->cursor->x = 0.0f;
+	game->cursor->y = 0.0f;
+
+	game->racket->coordinate.pos_x = 0.0f;
+	game->racket->coordinate.pos_y = 0.0f;
+	game->racket->coordinate.pos_z = 0.0f;
+	game->racket->size = 2.0f;
+
+	game->ball->coordinate.pos_x = -15.0f;
+	game->ball->coordinate.pos_y = 0.0f;
+	game->ball->coordinate.pos_z = 0.0f;
+
+	for (int i = 0; i < nbObstacte; i++)
+	{
+		addObstacle(game->obstacles, i);
+	}
 }
 
-void gameLoop(GLFWwindow *window)
+void gameLoop(GLFWwindow *window, Game *game)
 {
-	glfwGetCursorPos(window, &cursor->x, &cursor->y);
 
-	if (game.status == GameStatus::IN_GAME)
+	if (game->status == GameStatus::IN_GAME)
 	{
-		drawScene(racket);
+		// Get the cursor position
+		glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
 
-		// log cursor pos
-		// fprintf(stdout, "xpos: %f, ypos: %f\n", cursor->x, cursor->y);
-		// log racket pos
-		// fprintf(stdout, "xpos: %f, ypos: %f, zpos: %f\n", racket->coordinate.pos_x, racket->coordinate.pos_y, racket->coordinate.pos_z);
+		moveRacket(game->racket, game->cursor);
+		moveBall(game->ball);
+		// todo: moveObstacles(game->obstacles);
 
-		moveRacket(racket, cursor);
-		moveBall();
+		drawScene(game->racket, game->ball, game->obstacles);
 	}
 }

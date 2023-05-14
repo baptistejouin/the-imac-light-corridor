@@ -1,7 +1,13 @@
 #pragma once
 
+#include <vector>
+
+#include "3D_tools.h"
 #include "draw_scene.h"
 #include "ball.h"
+#include "racket.h"
+#include "walls.h"
+#include "obstacle.h"
 
 enum class GameStatus
 {
@@ -12,10 +18,11 @@ enum class GameStatus
 typedef struct Game
 {
 	GameStatus status;
+	Racket *racket;
+	Ball *ball;
+	std::vector<Obstacle *> *obstacles;
+	Cursor *cursor;
 } Game;
 
-extern Game game;
-extern Cursor *cursor;
-
-void initGame();
-void gameLoop(GLFWwindow *window);
+void *initGame(Game *game);
+void gameLoop(GLFWwindow *window, Game *game);

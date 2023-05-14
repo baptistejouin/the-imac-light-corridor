@@ -1,16 +1,16 @@
 #include "3D_tools.h"
 
-float cam_x = 1.5f;
+float cam_x = 0.0f;
 float cam_y = 0.0f;
 float cam_z = 0.0f;
 
 void setCamera()
 {
-	gluLookAt(cam_x,		  // x
-			  cam_y,		  // y
-			  cam_z,		  // z
-			  0.0, 0.0, 0.0,  // point visé
-			  0.0, 0.0, 1.0); // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
+	gluLookAt(cam_x,				 // x
+			  cam_y,				 // y
+			  cam_z,				 // z
+			  cam_x - 1, 0.0, cam_z, // point visé
+			  0.0, 0.0, 1.0);		 // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
 }
 
 /* Convert degree to radians */
@@ -45,7 +45,8 @@ void drawCircle()
 	glEnd();
 }
 
-void drawSphere()
+void drawSphere(float const size)
 {
-	gluSphere(gluNewQuadric(), 1.0, NB_SEG_CIRCLE, NB_SEG_CIRCLE);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	gluSphere(gluNewQuadric(), size, NB_SEG_CIRCLE, NB_SEG_CIRCLE);
 }

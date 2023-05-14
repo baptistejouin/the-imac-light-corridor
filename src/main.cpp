@@ -10,17 +10,15 @@
 #include "3D_tools.h"
 
 /* Window properties */
-static const unsigned int WINDOW_WIDTH = 1280;
-static const unsigned int WINDOW_HEIGHT = 720;
+extern unsigned int WINDOW_WIDTH = 1280;
+extern unsigned int WINDOW_HEIGHT = 720;
+extern unsigned int CAMERA_ZOOM = 10;
+extern float FOV = 60.0f;
 static const char WINDOW_TITLE[] = "The IMAC light corridor";
 static float aspectRatio = 1.0;
 
 /* Minimal time wanted between two images */
-static const double FRAMERATE_IN_SECONDS = 1. / 30.;
-
-/* Virtual windows space */
-// Space is defined in interval -1 and 1 on x and y axes
-static const float GL_VIEW_SIZE = 20.;
+static const double FRAMERATE_IN_SECONDS = 1. / 120.;
 
 /* Error handling function */
 void onError(int error, const char *description)
@@ -32,26 +30,25 @@ void onWindowResized(GLFWwindow *window, int width, int height)
 {
     aspectRatio = width / (float)height;
 
-    // Récupérer le ratio de pixels
-    float xScale, yScale;
-    glfwGetWindowContentScale(window, &xScale, &yScale);
-
-    // Définir la zone d'affichage OpenGL en prenant en compte le ratio de pixels
-    glViewport(0, 0, width * xScale, height * yScale);
-    // fprintf(stderr, "yScale: %f\n", xScale);
+    int fbWidth, fbHeight;
+    glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
+    glViewport(0, 0, fbWidth, fbHeight);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    // Utiliser l'aspectRatio et prendre en compte le ratio de pixels pour calculer la perspective
-    gluPerspective(60.0, aspectRatio, Z_NEAR, Z_FAR);
+    WINDOW_WIDTH = width;
+    WINDOW_HEIGHT = height;
+
+    gluPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
 
     glMatrixMode(GL_MODELVIEW);
 }
 
 void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    if (action == GLFW_PRESS)
+    // press or hold
+    if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
         switch (key)
         {
@@ -66,18 +63,42 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
             break;
         case GLFW_KEY_O:
             // only for debug
-            if (cam_x == 1.5f)
+            if (cam_x == 0.0f)
             {
-                cam_x = 2.5f;
-                cam_y = 2.0f;
-                cam_z = 2.0f;
+                cam_x = 2.0f;
+                cam_y = 15.0f;
+                cam_z = 15.0f;
             }
             else
             {
-                cam_x = 1.5f;
+                cam_x = 0.0f;
                 cam_y = 0.0f;
                 cam_z = 0.0f;
             }
+            break;
+        // add controls cam with directionals arrows
+        case GLFW_KEY_UP:
+            if (mods == GLFW_MOD_SHIFT)
+            {
+                cam_z += 1.0f;
+                break;
+            }
+            cam_x -= 1.0f;
+            break;
+        case GLFW_KEY_DOWN:
+            if (mods == GLFW_MOD_SHIFT)
+            {
+                cam_z -= 1.0f;
+                break;
+            }
+            cam_x += 1.0f;
+            break;
+        case GLFW_KEY_LEFT:
+            cam_y += 1.0f;
+            break;
+        case GLFW_KEY_RIGHT:
+
+            cam_y -= 1.0f;
             break;
         default:
             fprintf(stdout, "Touche \"%d\" non gérée\n", key);
@@ -109,6 +130,7 @@ int main(int argc, char **argv)
     glfwMakeContextCurrent(window);
 
     glfwSetWindowSizeCallback(window, onWindowResized);
+    glfwSetWindowAspectRatio(window, 16, 9);
     glfwSetKeyCallback(window, onKey);
 
     onWindowResized(window, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -116,7 +138,11 @@ int main(int argc, char **argv)
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
 
-    initGame();
+    // random seed
+    srand(time(0));
+
+    Game *game = new Game;
+    initGame(game);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -133,7 +159,7 @@ int main(int argc, char **argv)
         setCamera();
 
         /* RENDER HERE */
-        gameLoop(window);
+        gameLoop(window, game);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
