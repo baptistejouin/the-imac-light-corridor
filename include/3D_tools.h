@@ -10,6 +10,7 @@
 
 extern unsigned int WINDOW_WIDTH;
 extern unsigned int WINDOW_HEIGHT;
+extern unsigned int CAMERA_ZOOM;
 extern float FOV;
 
 typedef struct Color

@@ -6,11 +6,11 @@ float cam_z = 0.0f;
 
 void setCamera()
 {
-	gluLookAt(cam_x,		  // x
-			  cam_y,		  // y
-			  cam_z,		  // z
-			  -1.0, 0.0, 0.0, // point visé
-			  0.0, 0.0, 1.0); // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
+	gluLookAt(cam_x,				 // x
+			  cam_y,				 // y
+			  cam_z,				 // z
+			  cam_x - 1, 0.0, cam_z, // point visé
+			  0.0, 0.0, 1.0);		 // vecteur qui indique la direction du haut (unitaire de préférence comme l'axe z)
 }
 
 /* Convert degree to radians */

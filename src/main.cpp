@@ -12,6 +12,7 @@
 /* Window properties */
 extern unsigned int WINDOW_WIDTH = 1280;
 extern unsigned int WINDOW_HEIGHT = 720;
+extern unsigned int CAMERA_ZOOM = 10;
 extern float FOV = 60.0f;
 static const char WINDOW_TITLE[] = "The IMAC light corridor";
 static float aspectRatio = 1.0;
@@ -46,7 +47,8 @@ void onWindowResized(GLFWwindow *window, int width, int height)
 
 void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    if (action == GLFW_PRESS)
+    // press or hold
+    if (action == GLFW_PRESS || action == GLFW_REPEAT)
     {
         switch (key)
         {
@@ -73,6 +75,30 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
                 cam_y = 0.0f;
                 cam_z = 0.0f;
             }
+            break;
+        // add controls cam with directionals arrows
+        case GLFW_KEY_UP:
+            if (mods == GLFW_MOD_SHIFT)
+            {
+                cam_z += 1.0f;
+                break;
+            }
+            cam_x -= 1.0f;
+            break;
+        case GLFW_KEY_DOWN:
+            if (mods == GLFW_MOD_SHIFT)
+            {
+                cam_z -= 1.0f;
+                break;
+            }
+            cam_x += 1.0f;
+            break;
+        case GLFW_KEY_LEFT:
+            cam_y += 1.0f;
+            break;
+        case GLFW_KEY_RIGHT:
+
+            cam_y -= 1.0f;
             break;
         default:
             fprintf(stdout, "Touche \"%d\" non gérée\n", key);
@@ -112,7 +138,9 @@ int main(int argc, char **argv)
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
 
-    initGame();
+    Game *game = new Game;
+
+    initGame(game);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -129,7 +157,7 @@ int main(int argc, char **argv)
         setCamera();
 
         /* RENDER HERE */
-        gameLoop(window);
+        gameLoop(window, game);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
