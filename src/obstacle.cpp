@@ -46,6 +46,8 @@ void addObstacle(std::vector<Obstacle *> *obstacles, int i)
 
 	obstacle->coordinate.pos_y = 10 - obstacle->size;
 
+	obstacle->speed.x = 0.1f;
+
 	printf("obstacle %d x position: %f\n", i, obstacle->coordinate.pos_x);
 	printf("obstacle %d z position: %f\n", i, obstacle->coordinate.pos_z);
 	printf("obstacle %d y position: %f\n", i, obstacle->coordinate.pos_y);
@@ -66,6 +68,6 @@ void moveObstacles(std::vector<Obstacle *> *obstacles)
 			current->coordinate.pos_x = -40.0f;
 		}
 
-		current->coordinate.pos_x += current->speed;
+		current->coordinate.pos_x += current->speed.x;
 	}
 }

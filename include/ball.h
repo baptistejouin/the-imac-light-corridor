@@ -1,14 +1,19 @@
 #pragma once
 
+#include <algorithm>
+
 #include "3D_tools.h"
+#include "racket.h"
 
 typedef struct Ball
 {
 	Coordinate coordinate;
-	float size = 1.0f;
-	bool isSticky = true;
-	float speed = 0.1f;
+	float size;
+	bool isSticky;
+	Speed speed;
+	Color color;
 } Ball;
 
 void drawBall(Ball *ball);
-void moveBall(Ball *ball);
+void moveBall(Ball *ball, Racket *racket);
+void handleCollision(Ball *ball, Racket *racket);

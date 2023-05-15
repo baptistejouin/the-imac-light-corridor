@@ -28,6 +28,11 @@ typedef struct Coordinate
 	GLfloat pos_x, pos_y, pos_z;
 } Coordinate;
 
+typedef struct Speed
+{
+	GLfloat x, y, z;
+} Speed;
+
 /* Camera parameters and functions */
 static const float Z_NEAR = 0.1f;
 static const float Z_FAR = 100.f;
@@ -42,8 +47,7 @@ void setCamera();
 void drawSquare(bool const filled = true, float const size = 1.0f);
 
 void drawCircle();
-
-void drawSphere(float const size = 1.0f);
+void drawSphere(float const size, Color color);
 
 /* Small tools */
 float toRad(float deg);
