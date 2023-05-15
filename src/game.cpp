@@ -1,4 +1,5 @@
 #include "game.h"
+#include <iostream>
 
 void *initGame(Game *game)
 {
@@ -47,9 +48,15 @@ void gameLoop(GLFWwindow *window, Game *game)
 		 *	Move the objects
 		 */
 		moveRacket(game->racket, game->cursor);
-		// moveObstacles(game->obstacles);
-		moveBall(game->ball, game->racket);
-		// todo: moveLines
+		moveBall(game->ball, game->racket, game->isMoving);
+
+		// std::cout << "ismoving" << game->isMoving << std::endl;
+
+		if (game->isMoving)
+		{
+			moveObstacles(game->obstacles);
+			// todo: moveLines
+		}
 
 		/*
 		 *	Draw the scene

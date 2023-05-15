@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <iostream>
 
 #include "game.h"
 #include "3D_tools.h"
@@ -16,6 +17,7 @@ extern unsigned int CAMERA_ZOOM = 10;
 extern float FOV = 60.0f;
 static const char WINDOW_TITLE[] = "The IMAC light corridor";
 static float aspectRatio = 1.0;
+Game *game = new Game;
 
 /* Minimal time wanted between two images */
 static const double FRAMERATE_IN_SECONDS = 1. / 120.;
@@ -47,8 +49,7 @@ void onWindowResized(GLFWwindow *window, int width, int height)
 
 void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    // press or hold
-    if (action == GLFW_PRESS || action == GLFW_REPEAT)
+    if (action == GLFW_PRESS)
     {
         switch (key)
         {
@@ -58,24 +59,40 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             break;
-        case GLFW_KEY_P:
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        case GLFW_KEY_SPACE:
+            game->isMoving = true;
             break;
-        case GLFW_KEY_O:
-            // only for debug
-            if (cam_x == 0.0f)
+        // add controls cam with directionals arrows
+        case GLFW_KEY_UP:
+            if (mods == GLFW_MOD_SHIFT)
             {
-                cam_x = 2.0f;
-                cam_y = 15.0f;
-                cam_z = 15.0f;
+                cam_z += 1.0f;
+                break;
             }
-            else
-            {
-                cam_x = 0.0f;
-                cam_y = 0.0f;
-                cam_z = 0.0f;
-            }
+            cam_x -= 1.0f;
             break;
+        case GLFW_KEY_DOWN:
+            if (mods == GLFW_MOD_SHIFT)
+            {
+                cam_z -= 1.0f;
+                break;
+            }
+            cam_x += 1.0f;
+            break;
+        case GLFW_KEY_LEFT:
+            cam_y += 1.0f;
+            break;
+        case GLFW_KEY_RIGHT:
+            cam_y -= 1.0f;
+            break;
+        default:
+            break;
+        }
+    }
+    if (action == GLFW_REPEAT)
+    {
+        switch (key)
+        {
         // add controls cam with directionals arrows
         case GLFW_KEY_UP:
             if (mods == GLFW_MOD_SHIFT)
@@ -101,7 +118,21 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
             cam_y -= 1.0f;
             break;
         default:
-            fprintf(stdout, "Touche \"%d\" non gérée\n", key);
+            break;
+        }
+    }
+    if (action == GLFW_RELEASE)
+    {
+        switch (key)
+        {
+        case GLFW_KEY_SPACE:
+            game->isMoving = false;
+            break;
+        case GLFW_KEY_L:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            break;
+        default:
+            break;
         }
     }
 }
@@ -141,7 +172,6 @@ int main(int argc, char **argv)
     // random seed
     srand(time(0));
 
-    Game *game = new Game;
     initGame(game);
 
     /* Loop until the user closes the window */

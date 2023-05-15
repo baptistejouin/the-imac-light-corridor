@@ -15,5 +15,5 @@ typedef struct Ball
 } Ball;
 
 void drawBall(Ball *ball);
-void moveBall(Ball *ball, Racket *racket);
+void moveBall(Ball *ball, Racket *racket, bool isMoving);
 void handleCollision(Ball *ball, Racket *racket);

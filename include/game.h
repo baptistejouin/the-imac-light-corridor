@@ -19,6 +19,7 @@ typedef struct Game
 	GameStatus status;
 	Racket *racket;
 	Ball *ball;
+	bool isMoving;
 	std::vector<Obstacle *> *obstacles;
 	Cursor *cursor;
 } Game;
