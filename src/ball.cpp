@@ -1,5 +1,4 @@
 #include "ball.h"
-#include <iostream>
 
 void drawBall(Ball *ball)
 {

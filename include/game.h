@@ -21,6 +21,7 @@ typedef struct Game
 	Ball *ball;
 	bool isMoving;
 	std::vector<Obstacle *> *obstacles;
+	std::vector<Line *> *lines;
 	Cursor *cursor;
 } Game;
 

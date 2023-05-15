@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <iostream>
 
 #include "game.h"
 #include "3D_tools.h"
