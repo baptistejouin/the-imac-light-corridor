@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 project(imac_light_corridor)
 
 # Version du C++ utilisé
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 # Inclusion des fichiers d'en-tête
 include_directories(include)

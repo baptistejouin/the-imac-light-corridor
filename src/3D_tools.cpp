@@ -45,8 +45,8 @@ void drawCircle()
 	glEnd();
 }
 
-void drawSphere(float const size)
+void drawSphere(float const size, Color color)
 {
-	glColor3f(1.0f, 1.0f, 1.0f);
+	glColor4f(color.r, color.g, color.b, color.a);
 	gluSphere(gluNewQuadric(), size, NB_SEG_CIRCLE, NB_SEG_CIRCLE);
 }

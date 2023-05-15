@@ -3,10 +3,9 @@
 #include <vector>
 
 #include "3D_tools.h"
-#include "draw_scene.h"
 #include "ball.h"
 #include "racket.h"
-#include "walls.h"
+#include "corridor.h"
 #include "obstacle.h"
 
 enum class GameStatus
@@ -20,7 +19,9 @@ typedef struct Game
 	GameStatus status;
 	Racket *racket;
 	Ball *ball;
+	bool isMoving;
 	std::vector<Obstacle *> *obstacles;
+	std::vector<Line *> *lines;
 	Cursor *cursor;
 } Game;
 

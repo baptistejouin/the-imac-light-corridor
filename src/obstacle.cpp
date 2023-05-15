@@ -46,10 +46,28 @@ void addObstacle(std::vector<Obstacle *> *obstacles, int i)
 
 	obstacle->coordinate.pos_y = 10 - obstacle->size;
 
+	obstacle->speed.x = 0.1f;
+
 	printf("obstacle %d x position: %f\n", i, obstacle->coordinate.pos_x);
 	printf("obstacle %d z position: %f\n", i, obstacle->coordinate.pos_z);
 	printf("obstacle %d y position: %f\n", i, obstacle->coordinate.pos_y);
 	printf("obstacle %d size: %f\n", i, obstacle->size);
 
 	obstacles->push_back(obstacle);
+}
+
+void moveObstacles(std::vector<Obstacle *> *obstacles)
+{
+	for (int i = 0; i < obstacles->size(); i++)
+	{
+		Obstacle *current = obstacles->at(i);
+
+		// todo: use the size of the corridor (to be defined in "game")
+		if (current->coordinate.pos_x > 0)
+		{
+			current->coordinate.pos_x = -40.0f;
+		}
+
+		current->coordinate.pos_x += current->speed.x;
+	}
 }

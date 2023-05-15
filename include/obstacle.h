@@ -9,8 +9,10 @@ typedef struct Obstacle
 {
 	Coordinate coordinate;
 	GLfloat size;
+	Speed speed;
 } Obstacle;
 
 void drawObstacle(Obstacle *obstacle);
 void drawObstacles(std::vector<Obstacle *> *obstacles);
 void addObstacle(std::vector<Obstacle *> *obstacles, int i);
+void moveObstacles(std::vector<Obstacle *> *obstacles);
