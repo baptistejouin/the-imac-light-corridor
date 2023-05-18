@@ -2,7 +2,7 @@
 
 void *initGame(Game *game)
 {
-	int nbObstacte = 2;
+	int nbObstacte = 1;
 
 	// TODO: When the menu is implemented, the game should start in the menu
 	game->status = GameStatus::IN_GAME;
@@ -24,7 +24,7 @@ void *initGame(Game *game)
 	game->ball->coordinate.pos_x = -50.0f + game->ball->size;
 	game->ball->coordinate.pos_y = 0.0f;
 	game->ball->coordinate.pos_z = 0.0f;
-	game->ball->speed.x = 0.5f;
+	game->ball->speed.x = 0.3f;
 	game->ball->isSticky = false;
 	game->ball->color.r = 1.0f;
 	game->ball->color.g = 1.0f;
@@ -45,24 +45,26 @@ void *initGame(Game *game)
 void gameLoop(GLFWwindow *window, Game *game)
 {
 
-	if (game->status == GameStatus::IN_GAME)
+	if (game->status == GameStatus::IN_GAME || game->status == GameStatus::PAUSE)
 	{
-		glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
-
-		/*
-		 *	Move the objects (auto)
-		 */
-		moveRacket(game->racket, game->cursor);
-		moveBall(game->ball, game->racket);
-
-		/*
-		 *	Move the objects (on key)
-		 */
-		if (game->isMoving && !isCollidingWithRacket(game->obstacles, game->racket))
+		if (game->status != GameStatus::PAUSE)
 		{
-			moveObstacles(game->obstacles, game->racket);
-			moveLines(game->lines);
-			moveBallOnKey(game->ball);
+			glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
+			/*
+			 *	Move the objects (auto)
+			 */
+			moveRacket(game->racket, game->cursor);
+			moveBall(game->ball, game->racket, game->obstacles, &game->status);
+
+			/*
+			 *	Move the objects (on key)
+			 */
+			if (game->isMoving && !isCollidingWithRacket(game->obstacles, game->racket))
+			{
+				moveObstacles(game->obstacles, game->racket);
+				moveLines(game->lines);
+				moveBallOnKey(game->ball);
+			}
 		}
 
 		/*
@@ -74,5 +76,20 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawBall(game->ball);
 		drawObstacles(game->obstacles);
 		// todo: drawLives
+	}
+
+	if (game->status == GameStatus::GAME_OVER)
+	{
+		// todo: make menu for game over
+
+		glPushMatrix();
+		glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+		glTranslatef(0.0f, 0.0f, -5.0f);
+		drawSquare(false, 1.0f);
+		glPopMatrix();
+	}
+
+	if (game->status == GameStatus::MENU)
+	{
 	}
 }

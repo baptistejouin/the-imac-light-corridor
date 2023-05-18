@@ -8,12 +8,6 @@
 #include "corridor.h"
 #include "obstacle.h"
 
-enum class GameStatus
-{
-	MENU,
-	IN_GAME
-};
-
 typedef struct Game
 {
 	GameStatus status;

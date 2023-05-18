@@ -89,16 +89,16 @@ void moveObstacles(std::vector<Obstacle *> *obstacles, Racket *racket)
 {
 	for (int i = 0; i < obstacles->size(); i++)
 	{
-		Obstacle *current = obstacles->at(i);
+		Obstacle *obstacle = obstacles->at(i);
 
 		// todo: use the size of the corridor (to be defined in "game")
-		if (current->coordinate.pos_x > 0)
+		if (obstacle->coordinate.pos_x > 0)
 		{
-			current->coordinate.pos_x = -40.0f;
-			randomizeObstacle(current, racket);
+			obstacle->coordinate.pos_x = -40.0f;
+			randomizeObstacle(obstacle, racket);
 		}
 
-		current->coordinate.pos_x += current->speed.x;
+		obstacle->coordinate.pos_x += obstacle->speed.x;
 	}
 }
 
@@ -106,15 +106,15 @@ bool isCollidingWithRacket(std::vector<Obstacle *> *obstacles, Racket *racket)
 {
 	for (int i = 0; i < obstacles->size(); i++)
 	{
-		Obstacle *current = obstacles->at(i);
+		Obstacle *obstacle = obstacles->at(i);
 
-		if (current->coordinate.pos_x < 0)
+		if (obstacle->coordinate.pos_x < 0)
 			continue;
 
-		if (racket->coordinate.pos_y + racket->size > current->coordinate.pos_y - current->width &&
-			racket->coordinate.pos_y - racket->size < current->coordinate.pos_y + current->width &&
-			racket->coordinate.pos_z + racket->size > current->coordinate.pos_z - current->height &&
-			racket->coordinate.pos_z - racket->size < current->coordinate.pos_z + current->height)
+		if (racket->coordinate.pos_y + racket->size > obstacle->coordinate.pos_y - obstacle->width &&
+			racket->coordinate.pos_y - racket->size < obstacle->coordinate.pos_y + obstacle->width &&
+			racket->coordinate.pos_z + racket->size > obstacle->coordinate.pos_z - obstacle->height &&
+			racket->coordinate.pos_z - racket->size < obstacle->coordinate.pos_z + obstacle->height)
 			return true;
 	}
 
