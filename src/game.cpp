@@ -2,7 +2,7 @@
 
 void *initGame(Game *game)
 {
-	int nbObstacte = 1;
+	int nbObstacte = 2;
 
 	// TODO: When the menu is implemented, the game should start in the menu
 	game->status = GameStatus::IN_GAME;
@@ -24,7 +24,7 @@ void *initGame(Game *game)
 	game->ball->coordinate.pos_x = -50.0f + game->ball->size;
 	game->ball->coordinate.pos_y = 0.0f;
 	game->ball->coordinate.pos_z = 0.0f;
-	game->ball->speed.x = 0.2f;
+	game->ball->speed.x = 0.5f;
 	game->ball->isSticky = false;
 	game->ball->color.r = 1.0f;
 	game->ball->color.g = 1.0f;
@@ -33,7 +33,7 @@ void *initGame(Game *game)
 
 	for (int i = 0; i < nbObstacte; i++)
 	{
-		addObstacle(game->obstacles, i);
+		addObstacle(game->obstacles, i, game->racket);
 	}
 
 	for (int i = 0; i < 4; i++)
@@ -60,7 +60,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 		 */
 		if (game->isMoving)
 		{
-			moveObstacles(game->obstacles);
+			moveObstacles(game->obstacles, game->racket);
 			moveLines(game->lines);
 		}
 

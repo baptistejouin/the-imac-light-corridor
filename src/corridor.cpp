@@ -67,7 +67,7 @@ void drawLine(Line *line)
 	glTranslatef(-15.0, 0.0, -4.5);
 
 	glPushMatrix();
-	glColor4f(line->color.r, line->color.b, line->color.b, line->color.a);
+	glColor4f(line->color.r, line->color.g, line->color.b, line->color.a);
 	glTranslatef(5.0, 0.0, 5.0);
 	glRotatef(90, 0.0, 1.0, 0.0);
 	glScalef(.99f, 1.99f, .99f);
@@ -88,7 +88,7 @@ void addLine(std::vector<Line *> *lines, int i)
 	line->coordinate.pos_x = -(float)(i * 10);
 	line->coordinate.pos_y = 0.0f;
 	line->coordinate.pos_z = 0.0f;
-	line->speed.x = 0.1f;
+	line->speed.x = 0.2f;
 
 	lines->push_back(line);
 }
