@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 #include <math.h>
 
 #include "3D_tools.h"
@@ -8,6 +9,7 @@
 
 typedef struct Obstacle
 {
+	int id;
 	Coordinate coordinate;
 	float width, height;
 	Speed speed;

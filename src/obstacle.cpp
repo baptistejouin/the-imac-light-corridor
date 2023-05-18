@@ -36,21 +36,35 @@ void drawObstacles(std::vector<Obstacle *> *obstacles)
 void randomizeObstacle(Obstacle *obstacle, Racket *racket)
 {
 	// generate a random width size between 1.0 and 10.0
-	obstacle->width = static_cast<float>(rand() % (10 + 1));
+	obstacle->width = fmax(static_cast<float>(rand() % (10 + 1)), 1.5);
 
 	if (obstacle->width > (10 - racket->size))
 	{
 		// if width > 10.0 - racket size, then generate a height between 1.0 and (3 - racket->size)
-		obstacle->height = static_cast<float>(rand() % ((5 - static_cast<int>(racket->size)) + 1));
+		obstacle->height = fmax(static_cast<float>(rand() % ((5 - static_cast<int>(racket->size)) + 1)), 1.5);
 	}
 	else
 	{
 		// otherwise generate a height between 1.0 and 5.0
-		obstacle->height = static_cast<float>(rand() % (5 + 1));
+		obstacle->height = fmax(static_cast<float>(rand() % (5 + 1)), 1.5);
 	}
 
-	obstacle->coordinate.pos_y = -10 + obstacle->width;
-	obstacle->coordinate.pos_z = -4.5 + obstacle->height;
+	if (rand() % 2 == 0)
+		obstacle->coordinate.pos_y = -10 + obstacle->width;
+	else
+		obstacle->coordinate.pos_y = -(-10 + obstacle->width);
+
+	if (rand() % 2 == 0)
+		obstacle->coordinate.pos_z = -4.5 + obstacle->height;
+	else
+		obstacle->coordinate.pos_z = 1 - (-4.5 + obstacle->height);
+
+	printf("obstacle %d x position: %f\n", obstacle->id, obstacle->coordinate.pos_x);
+	printf("obstacle %d z position: %f\n", obstacle->id, obstacle->coordinate.pos_z);
+	printf("obstacle %d y position: %f\n", obstacle->id, obstacle->coordinate.pos_y);
+	printf("obstacle %d width: %f\n", obstacle->id, obstacle->width);
+	printf("obstacle %d height: %f\n", obstacle->id, obstacle->height);
+	printf("\n");
 }
 
 void addObstacle(std::vector<Obstacle *> *obstacles, int i, Racket *racket)
@@ -60,18 +74,13 @@ void addObstacle(std::vector<Obstacle *> *obstacles, int i, Racket *racket)
 	// todo: use the size of the corridor (to be defined in "game")
 	// the obstacle is on the back of the corridor
 	obstacle->coordinate.pos_x = -40.0f + i * 20.0;
-
 	obstacle->coordinate.pos_z = 0;
+
+	obstacle->id = i;
 
 	randomizeObstacle(obstacle, racket);
 
 	obstacle->speed.x = 0.2f;
-
-	printf("obstacle %d x position: %f\n", i, obstacle->coordinate.pos_x);
-	printf("obstacle %d z position: %f\n", i, obstacle->coordinate.pos_z);
-	printf("obstacle %d y position: %f\n", i, obstacle->coordinate.pos_y);
-	printf("obstacle %d width: %f\n", i, obstacle->width);
-	printf("obstacle %d height: %f\n", i, obstacle->height);
 
 	obstacles->push_back(obstacle);
 }
