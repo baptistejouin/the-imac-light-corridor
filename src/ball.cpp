@@ -62,7 +62,7 @@ void handleCollision(Ball *ball, Racket *racket)
 	}
 }
 
-void moveBall(Ball *ball, Racket *racket, bool isMoving)
+void moveBall(Ball *ball, Racket *racket)
 {
 	// todo: isSticky ?
 	if (ball->isSticky)
@@ -73,9 +73,13 @@ void moveBall(Ball *ball, Racket *racket, bool isMoving)
 	ball->coordinate.pos_x += ball->speed.x;
 	ball->coordinate.pos_y += ball->speed.y;
 	ball->coordinate.pos_z += ball->speed.z;
+}
 
-	if (isMoving)
-	{
-		ball->coordinate.pos_x += std::abs(ball->speed.x);
-	}
+void moveBallOnKey(Ball *ball)
+{
+	// todo: isSticky ?
+	if (ball->isSticky)
+		return;
+
+	ball->coordinate.pos_x += std::abs(ball->speed.x);
 }

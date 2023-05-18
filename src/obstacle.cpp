@@ -59,12 +59,12 @@ void randomizeObstacle(Obstacle *obstacle, Racket *racket)
 	else
 		obstacle->coordinate.pos_z = 1 - (-4.5 + obstacle->height);
 
-	printf("obstacle %d x position: %f\n", obstacle->id, obstacle->coordinate.pos_x);
-	printf("obstacle %d z position: %f\n", obstacle->id, obstacle->coordinate.pos_z);
-	printf("obstacle %d y position: %f\n", obstacle->id, obstacle->coordinate.pos_y);
-	printf("obstacle %d width: %f\n", obstacle->id, obstacle->width);
-	printf("obstacle %d height: %f\n", obstacle->id, obstacle->height);
-	printf("\n");
+	// printf("obstacle %d x position: %f\n", obstacle->id, obstacle->coordinate.pos_x);
+	// printf("obstacle %d z position: %f\n", obstacle->id, obstacle->coordinate.pos_z);
+	// printf("obstacle %d y position: %f\n", obstacle->id, obstacle->coordinate.pos_y);
+	// printf("obstacle %d width: %f\n", obstacle->id, obstacle->width);
+	// printf("obstacle %d height: %f\n", obstacle->id, obstacle->height);
+	// printf("\n");
 }
 
 void addObstacle(std::vector<Obstacle *> *obstacles, int i, Racket *racket)
@@ -100,4 +100,23 @@ void moveObstacles(std::vector<Obstacle *> *obstacles, Racket *racket)
 
 		current->coordinate.pos_x += current->speed.x;
 	}
+}
+
+bool isCollidingWithRacket(std::vector<Obstacle *> *obstacles, Racket *racket)
+{
+	for (int i = 0; i < obstacles->size(); i++)
+	{
+		Obstacle *current = obstacles->at(i);
+
+		if (current->coordinate.pos_x < 0)
+			continue;
+
+		if (racket->coordinate.pos_y + racket->size > current->coordinate.pos_y - current->width &&
+			racket->coordinate.pos_y - racket->size < current->coordinate.pos_y + current->width &&
+			racket->coordinate.pos_z + racket->size > current->coordinate.pos_z - current->height &&
+			racket->coordinate.pos_z - racket->size < current->coordinate.pos_z + current->height)
+			return true;
+	}
+
+	return false;
 }

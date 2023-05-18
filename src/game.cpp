@@ -53,15 +53,16 @@ void gameLoop(GLFWwindow *window, Game *game)
 		 *	Move the objects (auto)
 		 */
 		moveRacket(game->racket, game->cursor);
-		moveBall(game->ball, game->racket, game->isMoving);
+		moveBall(game->ball, game->racket);
 
 		/*
 		 *	Move the objects (on key)
 		 */
-		if (game->isMoving)
+		if (game->isMoving && !isCollidingWithRacket(game->obstacles, game->racket))
 		{
 			moveObstacles(game->obstacles, game->racket);
 			moveLines(game->lines);
+			moveBallOnKey(game->ball);
 		}
 
 		/*
