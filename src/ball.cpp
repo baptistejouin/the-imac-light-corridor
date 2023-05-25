@@ -9,8 +9,7 @@ void drawBall(Ball *ball)
 	glPopMatrix();
 }
 
-// todo: to improve
-void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status)
+void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, int *lifeCount)
 {
 	// collision with the corridor (left, right)
 	if ((ball->coordinate.pos_y > (10 - ball->size)) || (ball->coordinate.pos_y < (-10 + ball->size)))
@@ -33,65 +32,73 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		return;
 	}
 
-	// collision with the obstacles
+	// collision with the obstacles (TODO: not perfectly implemented)
 	for (size_t i = 0; i < obstacles->size(); i++)
 	{
 		Obstacle *obstacle = obstacles->at(i);
 
-		// check x axis for coolision between ball and obstacle we accept a margin of 0.1 of error
-		if (ball->coordinate.pos_x - 0.1 < obstacle->coordinate.pos_x && ball->coordinate.pos_x + 0.1 > obstacle->coordinate.pos_x)
+		float ballX = ball->coordinate.pos_x + (10 - ball->size);
+		float obstacleX = obstacle->coordinate.pos_x;
+
+		float margin = .8;
+
+		bool isCollisionX = ((ballX + ball->size >= (obstacleX - margin)) && (ballX <= (obstacleX + margin)));
+
+		bool isCollsionY = ((ball->coordinate.pos_y - ball->size < (obstacle->coordinate.pos_y + obstacle->width)) &&
+							(ball->coordinate.pos_y + ball->size > (obstacle->coordinate.pos_y - obstacle->width)));
+
+		bool isCollsionZ = ((ball->coordinate.pos_z - ball->size < (obstacle->coordinate.pos_z + obstacle->height)) &&
+							(ball->coordinate.pos_z + ball->size > (obstacle->coordinate.pos_z - obstacle->height)));
+
+		if (isCollisionX && isCollsionY && isCollsionZ)
 		{
-			printf("collision x\n");
-			// check y and z axis, we use obstacle->width / obstacle->height to get the size of the obstacle
-			if (ball->coordinate.pos_y < obstacle->coordinate.pos_y + obstacle->width / 2 &&
-				ball->coordinate.pos_y > obstacle->coordinate.pos_y - obstacle->width / 2 &&
-				ball->coordinate.pos_z < obstacle->coordinate.pos_z + obstacle->height / 2 &&
-				ball->coordinate.pos_z > obstacle->coordinate.pos_z - obstacle->height / 2)
-			{
-				printf("collision z\n");
-				*status = GameStatus::PAUSE;
-			}
+			ball->speed.x = -ball->speed.x;
+			// *status = GameStatus::PAUSE;
+			return;
 		}
 	}
 
 	// collison with the racket
-	if (ball->coordinate.pos_x > (-10 - ball->size) &&
-		ball->coordinate.pos_y < racket->coordinate.pos_y + racket->size &&
-		ball->coordinate.pos_y > racket->coordinate.pos_y - racket->size &&
-		ball->coordinate.pos_z < racket->coordinate.pos_z + racket->size &&
-		ball->coordinate.pos_z > racket->coordinate.pos_z - racket->size)
+	if ((ball->coordinate.pos_x > (-10 - ball->size)) &&
+		(ball->coordinate.pos_y < (racket->coordinate.pos_y + racket->size)) &&
+		(ball->coordinate.pos_y > (racket->coordinate.pos_y - racket->size)) &&
+		(ball->coordinate.pos_z < (racket->coordinate.pos_z + racket->size)) &&
+		ball->coordinate.pos_z > (racket->coordinate.pos_z - racket->size))
 	{
-		ball->coordinate.pos_x = -10 - ball->size;
 
 		// max speed of the ball
-		float maxSpeed = ball->speed.x;
+		float maxSpeed = 0.2;
 
 		// change the direction of the ball
-		ball->speed.x = -ball->speed.x;
-		ball->speed.y = std::clamp((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size, -0.1f, 0.1f);
-		ball->speed.z = std::clamp((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size, -0.1f, 0.1f);
+		ball->speed.x = -fabs(ball->speed.x);
+
+		ball->speed.y = ((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size) / 5;
+		ball->speed.z = ((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size) / 5;
 
 		// normalize the speed
-		float norm = sqrt(ball->speed.x * ball->speed.x + ball->speed.y * ball->speed.y + ball->speed.z * ball->speed.z);
+		double norm = sqrt(pow(ball->speed.x, 2) + pow(ball->speed.y, 2) + pow(ball->speed.z, 2));
 
-		if (norm > maxSpeed)
-		{
-			ball->speed.x = (ball->speed.x / norm) * maxSpeed;
-			ball->speed.y = (ball->speed.y / norm) * maxSpeed;
-			ball->speed.z = (ball->speed.z / norm) * maxSpeed;
-		}
+		ball->speed.x = (ball->speed.x / norm) * maxSpeed;
+		ball->speed.y = (ball->speed.y / norm) * maxSpeed;
+		ball->speed.z = (ball->speed.z / norm) * maxSpeed;
+
 		return;
 	}
 
-	// collision with the start of the corridor (out of the game, game over)
+	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
 	if (ball->coordinate.pos_x > (-5 - ball->size))
 	{
-		// todo: handle lives count
-
-		// todo: delete when lives are implemented
-		ball->isSticky = true;
-		*status = GameStatus::GAME_OVER;
-		return;
+		if (*lifeCount > 0)
+		{
+			ball->isSticky = true;
+			*lifeCount--;
+			return;
+		}
+		else
+		{
+			*status = GameStatus::GAME_OVER;
+			return;
+		}
 	}
 }
 

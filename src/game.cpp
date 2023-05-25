@@ -2,10 +2,11 @@
 
 void *initGame(Game *game)
 {
-	int nbObstacte = 1;
+	int nbObstacte = 2;
 
 	// TODO: When the menu is implemented, the game should start in the menu
 	game->status = GameStatus::IN_GAME;
+	game->lifeCount = 5;
 	game->cursor = new Cursor;
 	game->ball = new Ball;
 	game->racket = new Racket;
@@ -21,10 +22,10 @@ void *initGame(Game *game)
 	game->racket->size = 2.0f;
 
 	game->ball->size = 1.0f;
-	game->ball->coordinate.pos_x = -50.0f + game->ball->size;
+	game->ball->coordinate.pos_x = -10.0f + game->ball->size;
 	game->ball->coordinate.pos_y = 0.0f;
 	game->ball->coordinate.pos_z = 0.0f;
-	game->ball->speed.x = 0.3f;
+	game->ball->speed.x = -0.3f;
 	game->ball->isSticky = false;
 	game->ball->color.r = 1.0f;
 	game->ball->color.g = 1.0f;
@@ -75,7 +76,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawRacket(game->racket);
 		drawBall(game->ball);
 		drawObstacles(game->obstacles);
-		// todo: drawLives
+		// todo: drawLifeCount(game->lifeCount)
 	}
 
 	if (game->status == GameStatus::GAME_OVER)

@@ -14,6 +14,7 @@ typedef struct Game
 	Racket *racket;
 	Ball *ball;
 	bool isMoving;
+	int lifeCount;
 	std::vector<Obstacle *> *obstacles;
 	std::vector<Line *> *lines;
 	Cursor *cursor;
