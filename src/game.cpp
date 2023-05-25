@@ -55,7 +55,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 			 *	Move the objects (auto)
 			 */
 			moveRacket(game->racket, game->cursor);
-			moveBall(game->ball, game->racket, game->obstacles, &game->status);
+			moveBall(game->ball, game->racket, game->obstacles, &game->status, &game->lifeCount);
 
 			/*
 			 *	Move the objects (on key)

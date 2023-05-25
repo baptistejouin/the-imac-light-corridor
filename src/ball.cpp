@@ -102,13 +102,13 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	}
 }
 
-void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, GameStatus *status)
+void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, GameStatus *status, int *lifeCount)
 {
 	// todo: isSticky ?
 	if (ball->isSticky)
 		return;
 
-	handleCollision(ball, racket, obstactes, status);
+	handleCollision(ball, racket, obstactes, status, lifeCount);
 
 	ball->coordinate.pos_x += ball->speed.x;
 	ball->coordinate.pos_y += ball->speed.y;
