@@ -1,12 +1,24 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "3D_tools.h"
+#include "texture.h"
 #include "ball.h"
 #include "racket.h"
 #include "corridor.h"
 #include "obstacle.h"
+#include "lives.h"
+
+struct TextureLoaded;
+struct Ball;
+
+typedef struct Life
+{
+	int max;
+	int current;
+} Life;
 
 typedef struct Game
 {
@@ -14,11 +26,13 @@ typedef struct Game
 	Racket *racket;
 	Ball *ball;
 	bool isMoving;
-	int lifeCount;
+	Life *life;
 	std::vector<Obstacle *> *obstacles;
 	std::vector<Line *> *lines;
 	Cursor *cursor;
+	std::map<const char *, TextureLoaded> *textures;
 } Game;
 
 void *initGame(Game *game);
 void gameLoop(GLFWwindow *window, Game *game);
+void closeGame(Game *game);

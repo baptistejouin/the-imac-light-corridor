@@ -6,12 +6,16 @@ void *initGame(Game *game)
 
 	// TODO: When the menu is implemented, the game should start in the menu
 	game->status = GameStatus::IN_GAME;
-	game->lifeCount = 5;
 	game->cursor = new Cursor;
 	game->ball = new Ball;
 	game->racket = new Racket;
 	game->lines = new std::vector<Line *>;
 	game->obstacles = new std::vector<Obstacle *>;
+	game->life = new Life;
+	game->textures = new std::map<const char *, TextureLoaded>;
+
+	game->life->max = 5;
+	game->life->current = 3;
 
 	game->cursor->x = 0.0f;
 	game->cursor->y = 0.0f;
@@ -41,6 +45,8 @@ void *initGame(Game *game)
 	{
 		addLine(game->lines, i);
 	}
+
+	initTextures(game);
 }
 
 void gameLoop(GLFWwindow *window, Game *game)
@@ -55,7 +61,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 			 *	Move the objects (auto)
 			 */
 			moveRacket(game->racket, game->cursor);
-			moveBall(game->ball, game->racket, game->obstacles, &game->status, &game->lifeCount);
+			moveBall(game->ball, game->racket, game->obstacles, &game->status, game->life);
 
 			/*
 			 *	Move the objects (on key)
@@ -76,7 +82,17 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawRacket(game->racket);
 		drawBall(game->ball);
 		drawObstacles(game->obstacles);
-		// todo: drawLifeCount(game->lifeCount)
+
+		// if we have the heart texture
+		if (game->textures->count("heart") > 0)
+			drawLifeCount(game->life, game->textures->at("heart").textureID);
+
+		// for (auto &texture : *game->textures)
+		// {
+		// 	stbi_image_free(texture.second.stbImage);
+		// 	glDeleteTextures(1, &texture.second.GLtexture);
+		// 	glBindTexture(GL_TEXTURE_2D, 0);
+		// }
 	}
 
 	if (game->status == GameStatus::GAME_OVER)
@@ -93,4 +109,22 @@ void gameLoop(GLFWwindow *window, Game *game)
 	if (game->status == GameStatus::MENU)
 	{
 	}
+}
+
+void closeGame(Game *game)
+{
+	delete game->cursor;
+	delete game->ball;
+	delete game->racket;
+	delete game->obstacles;
+	delete game->lines;
+
+	for (auto &texture : *game->textures)
+	{
+		stbi_image_free(&texture.second.stbImage);
+		glDeleteTextures(1, &texture.second.textureID);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	glfwTerminate();
 }

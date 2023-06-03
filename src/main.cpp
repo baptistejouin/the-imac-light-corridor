@@ -1,4 +1,6 @@
 #define GLFW_INCLUDE_NONE
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
@@ -7,7 +9,6 @@
 #include <math.h>
 
 #include "game.h"
-#include "3D_tools.h"
 
 /* Window properties */
 extern unsigned int WINDOW_WIDTH = 1280;
@@ -167,6 +168,8 @@ int main(int argc, char **argv)
 
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // random seed
     srand(time(0));

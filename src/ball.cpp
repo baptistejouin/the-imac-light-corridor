@@ -9,7 +9,7 @@ void drawBall(Ball *ball)
 	glPopMatrix();
 }
 
-void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, int *lifeCount)
+void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
 {
 	// collision with the corridor (left, right)
 	if ((ball->coordinate.pos_y > (10 - ball->size)) || (ball->coordinate.pos_y < (-10 + ball->size)))
@@ -88,10 +88,10 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
 	if (ball->coordinate.pos_x > (-5 - ball->size))
 	{
-		if (*lifeCount > 0)
+		if (lifeCount->current > 0)
 		{
 			ball->isSticky = true;
-			*lifeCount--;
+			lifeCount->current--;
 			return;
 		}
 		else
@@ -102,7 +102,7 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	}
 }
 
-void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, GameStatus *status, int *lifeCount)
+void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, GameStatus *status, Life *lifeCount)
 {
 	// todo: isSticky ?
 	if (ball->isSticky)
@@ -121,5 +121,6 @@ void moveBallOnKey(Ball *ball)
 	if (ball->isSticky)
 		return;
 
+	// TODO: handle collision (un oubli oups)
 	ball->coordinate.pos_x += std::abs(ball->speed.x);
 }
