@@ -9,6 +9,8 @@
 #include "obstacle.h"
 
 struct Life;
+enum class GameStatus;
+
 typedef struct Ball
 {
 	Coordinate coordinate;

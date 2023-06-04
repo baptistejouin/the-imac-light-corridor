@@ -14,14 +14,6 @@ extern unsigned int WINDOW_HEIGHT;
 extern unsigned int CAMERA_ZOOM;
 extern float FOV;
 
-enum class GameStatus
-{
-	MENU,
-	IN_GAME,
-	PAUSE,
-	GAME_OVER
-};
-
 typedef struct Color
 {
 	GLfloat r, g, b, a;

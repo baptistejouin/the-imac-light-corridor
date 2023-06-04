@@ -20,6 +20,14 @@ typedef struct Life
 	int current;
 } Life;
 
+enum class GameStatus
+{
+	MENU,
+	IN_GAME,
+	PAUSE,
+	GAME_OVER
+};
+
 typedef struct Game
 {
 	GameStatus status;
