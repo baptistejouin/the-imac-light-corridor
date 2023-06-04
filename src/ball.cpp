@@ -67,15 +67,17 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		(ball->coordinate.pos_z < (racket->coordinate.pos_z + racket->size)) &&
 		ball->coordinate.pos_z > (racket->coordinate.pos_z - racket->size))
 	{
-
 		// max speed of the ball
 		float maxSpeed = 0.2;
 
 		// change the direction of the ball
 		ball->speed.x = -fabs(ball->speed.x);
 
-		ball->speed.y = ((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size) / 5;
-		ball->speed.z = ((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size) / 5;
+		// weighting of speed according to the position of the ball on the racket
+		int weighting = 6;
+
+		ball->speed.y = ((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size) / weighting;
+		ball->speed.z = ((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size) / weighting;
 
 		// normalize the speed
 		double norm = sqrt(pow(ball->speed.x, 2) + pow(ball->speed.y, 2) + pow(ball->speed.z, 2));
@@ -88,10 +90,10 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	}
 
 	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
-	if (ball->coordinate.pos_x > (-5 - ball->size))
+	if (ball->coordinate.pos_x > (-10 - ball->size))
 	{
 		printf("life: %d\n", lifeCount->current);
-		if (lifeCount->current > 0)
+		if (lifeCount->current > 1)
 		{
 			ball->isSticky = true;
 			lifeCount->current--;
@@ -118,11 +120,12 @@ void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, Ga
 	ball->coordinate.pos_z += ball->speed.z;
 }
 
-void moveBallOnKey(Ball *ball)
+void moveBallOnKey(Ball *ball, float movingSpeed)
 {
 	if (ball->isSticky)
 		return;
 
 	// TODO: handle collision (un oubli oups)
-	ball->coordinate.pos_x += std::abs(ball->speed.x);
+
+	ball->coordinate.pos_x += movingSpeed;
 }

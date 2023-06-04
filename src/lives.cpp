@@ -46,14 +46,14 @@ void drawLive(TextureLoaded *texture, LifeStatus status)
 void drawLifeCount(Life *lifeCount, std::map<const char *, TextureLoaded> *textures)
 {
 	float xOffset = 0.0f;
-	int temp = 0;
+	int temp = 1;
 
 	for (int i = 0; i < lifeCount->max; i++)
 	{
 
 		glPushMatrix();
 		glTranslatef(0, xOffset, 0.0);
-		drawLive(&textures->at("heart"), temp >= lifeCount->current ? LifeStatus::LOST : LifeStatus::CURRENT);
+		drawLive(&textures->at("heart"), temp > lifeCount->current ? LifeStatus::LOST : LifeStatus::CURRENT);
 		glPopMatrix();
 
 		temp++;

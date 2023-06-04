@@ -23,4 +23,4 @@ typedef struct Ball
 void drawBall(Ball *ball);
 void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount);
 void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount);
-void moveBallOnKey(Ball *ball);
+void moveBallOnKey(Ball *ball, float movingSpeed);
