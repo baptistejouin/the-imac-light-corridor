@@ -85,14 +85,19 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawLifeCount(game->life, game->textures);
 	}
 
+	if (game->status == GameStatus::PAUSE)
+	{
+		drawPause(game->textures);
+	}
+
 	if (game->status == GameStatus::GAME_OVER)
 	{
-		drawGameOver(&game->status, game->textures);
+		drawGameOver(game->textures);
 	}
 
 	if (game->status == GameStatus::MENU)
 	{
-		drawMenu(&game->status, game->textures);
+		drawMenu(game->textures);
 	}
 }
 

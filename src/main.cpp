@@ -55,7 +55,12 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         {
         case GLFW_KEY_ESCAPE:
             closeGame(game);
-
+            break;
+        case GLFW_KEY_K:
+            if (game->status == GameStatus::IN_GAME)
+                game->status = GameStatus::PAUSE;
+            else if (game->status == GameStatus::PAUSE)
+                game->status = GameStatus::IN_GAME;
             break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

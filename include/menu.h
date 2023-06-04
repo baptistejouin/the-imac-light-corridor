@@ -13,5 +13,6 @@ struct TexturePosition;
 void drawTitle(TextureLoaded *texture);
 void drawPlayButton(TextureLoaded *texture);
 void drawQuitButton(TextureLoaded *texture);
-void drawMenu(GameStatus *status, std::map<const char *, TextureLoaded> *textures);
-void drawGameOver(GameStatus *status, std::map<const char *, TextureLoaded> *textures);
+void drawMenu(std::map<const char *, TextureLoaded> *textures);
+void drawGameOver(std::map<const char *, TextureLoaded> *textures);
+void drawPause(std::map<const char *, TextureLoaded> *textures);
