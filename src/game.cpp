@@ -10,7 +10,7 @@ void initGame(Game *game, bool softInit)
 
 	game->life = new Life;
 	game->life->max = 4;
-	game->life->current = 1;
+	game->life->current = 4;
 
 	game->cursor = new Cursor;
 	game->cursor->x = 0.0f;
@@ -28,8 +28,7 @@ void initGame(Game *game, bool softInit)
 	game->ball->coordinate.pos_y = 0.0f;
 	game->ball->coordinate.pos_z = 0.0f;
 	game->ball->speed.x = -0.3f;
-	// TODO: handle isSticky, (true when implemented)
-	game->ball->isSticky = false;
+	game->ball->isSticky = true;
 	game->ball->color.r = 1.0f;
 	game->ball->color.g = 1.0f;
 	game->ball->color.b = 1.0f;
@@ -66,7 +65,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 			/*
 			 *	Move the objects (on key)
 			 */
-			if (game->isMoving && !isCollidingWithRacket(game->obstacles, game->racket))
+			if (game->isMoving && !isCollidingWithRacket(game->obstacles, game->racket) && !game->ball->isSticky)
 			{
 				moveObstacles(game->obstacles, game->racket, game->movingSpeed);
 				moveLines(game->lines, game->movingSpeed);

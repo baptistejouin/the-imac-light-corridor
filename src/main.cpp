@@ -47,6 +47,22 @@ void onWindowResized(GLFWwindow *window, int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
+void onClick(GLFWwindow *window, int button, int action, int mods)
+{
+    if (action == GLFW_PRESS)
+    {
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_RIGHT:
+            if (game->status == GameStatus::IN_GAME && game->ball->isSticky)
+            {
+                game->ball->isSticky = false;
+            }
+            break;
+        }
+    }
+}
+
 void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
@@ -183,6 +199,7 @@ int main(int argc, char **argv)
     glfwSetWindowAspectRatio(window, 16, 9);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetKeyCallback(window, onKey);
+    glfwSetMouseButtonCallback(window, onClick);
 
     onWindowResized(window, WINDOW_WIDTH, WINDOW_HEIGHT);
 
