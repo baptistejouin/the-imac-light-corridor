@@ -9,8 +9,8 @@ void initGame(Game *game, bool softInit)
 	game->movingSpeed = 0.1f;
 
 	game->life = new Life;
-	game->life->max = 4;
-	game->life->current = 4;
+	game->life->max = 3;
+	game->life->current = game->life->max;
 
 	game->cursor = new Cursor;
 	game->cursor->x = 0.0f;
