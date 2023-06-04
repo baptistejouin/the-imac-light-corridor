@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <vector>
+
 #include "3D_tools.h"
 
-// Structure pour les murs
 typedef struct Wall
 {
 	Color color;

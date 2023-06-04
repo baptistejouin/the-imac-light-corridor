@@ -1,9 +1,15 @@
 #pragma once
 
+#include <math.h>
 #include <algorithm>
 
+#include "game.h"
 #include "3D_tools.h"
 #include "racket.h"
+#include "obstacle.h"
+
+struct Life;
+enum class GameStatus;
 
 typedef struct Ball
 {
@@ -15,5 +21,6 @@ typedef struct Ball
 } Ball;
 
 void drawBall(Ball *ball);
-void moveBall(Ball *ball, Racket *racket, bool isMoving);
-void handleCollision(Ball *ball, Racket *racket);
+void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount);
+void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount);
+void moveBallOnKey(Ball *ball);

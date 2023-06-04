@@ -1,4 +1,6 @@
 #define GLFW_INCLUDE_NONE
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <GLFW/glfw3.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
@@ -7,7 +9,6 @@
 #include <math.h>
 
 #include "game.h"
-#include "3D_tools.h"
 
 /* Window properties */
 extern unsigned int WINDOW_WIDTH = 1280;
@@ -53,10 +54,23 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         switch (key)
         {
         case GLFW_KEY_ESCAPE:
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
+            closeGame(game);
+
             break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            break;
+        case GLFW_KEY_P:
+            if (game->status == GameStatus::MENU)
+                game->status = GameStatus::IN_GAME;
+            break;
+        case GLFW_KEY_A: // Q for AZERTY
+            if (game->status == GameStatus::MENU || game->status == GameStatus::GAME_OVER)
+                closeGame(game);
+            break;
+        case GLFW_KEY_R:
+            if (game->status == GameStatus::GAME_OVER)
+                resetGame(game);
             break;
         case GLFW_KEY_SPACE:
             game->isMoving = true;
@@ -141,6 +155,7 @@ int main(int argc, char **argv)
 {
     /* GLFW initialisation */
     GLFWwindow *window;
+
     if (!glfwInit())
         return -1;
 
@@ -167,11 +182,16 @@ int main(int argc, char **argv)
 
     glPointSize(5.0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // random seed
     srand(time(0));
 
+    game->window = window;
+
     initGame(game);
+    initTextures(game);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -206,5 +226,6 @@ int main(int argc, char **argv)
     }
 
     glfwTerminate();
+    printf("Game closed\n");
     return 0;
 }

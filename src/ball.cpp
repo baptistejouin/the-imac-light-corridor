@@ -9,8 +9,7 @@ void drawBall(Ball *ball)
 	glPopMatrix();
 }
 
-// todo: to improve
-void handleCollision(Ball *ball, Racket *racket)
+void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
 {
 	// collision with the corridor (left, right)
 	if ((ball->coordinate.pos_y > (10 - ball->size)) || (ball->coordinate.pos_y < (-10 + ball->size)))
@@ -33,49 +32,97 @@ void handleCollision(Ball *ball, Racket *racket)
 		return;
 	}
 
-	// collison with the racket
-	if (ball->coordinate.pos_x > (-10 - ball->size) &&
-		ball->coordinate.pos_y < racket->coordinate.pos_y + racket->size &&
-		ball->coordinate.pos_y > racket->coordinate.pos_y - racket->size &&
-		ball->coordinate.pos_z < racket->coordinate.pos_z + racket->size &&
-		ball->coordinate.pos_z > racket->coordinate.pos_z - racket->size)
+	// collision with the obstacles (TODO: not perfectly implemented)
+	for (size_t i = 0; i < obstacles->size(); i++)
 	{
-		ball->coordinate.pos_x = -10 - ball->size;
+		Obstacle *obstacle = obstacles->at(i);
 
-		ball->speed.x = -ball->speed.x;
-		ball->speed.y = std::clamp((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size, -0.1f, 0.1f);
-		ball->speed.z = std::clamp((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size, -0.1f, 0.1f);
+		float ballX = ball->coordinate.pos_x + (10 - ball->size);
+		float obstacleX = obstacle->coordinate.pos_x;
+
+		float margin = .8;
+
+		// TODO: check uniquement la collision avec le fond de l'obstacle uniquement (margin que d'un côté)
+		// TODO: check aussi si la balle est devant ou pas l'obstacle sur l'axe x pour evité les boucles de collisions
+		bool isCollisionX = ((ballX + ball->size >= (obstacleX - margin)) && (ballX <= (obstacleX + margin)));
+
+		bool isCollsionY = ((ball->coordinate.pos_y - ball->size < (obstacle->coordinate.pos_y + obstacle->width)) &&
+							(ball->coordinate.pos_y + ball->size > (obstacle->coordinate.pos_y - obstacle->width)));
+
+		bool isCollsionZ = ((ball->coordinate.pos_z - ball->size < (obstacle->coordinate.pos_z + obstacle->height)) &&
+							(ball->coordinate.pos_z + ball->size > (obstacle->coordinate.pos_z - obstacle->height)));
+
+		if (isCollisionX && isCollsionY && isCollsionZ)
+		{
+			ball->speed.x = -ball->speed.x;
+			// *status = GameStatus::PAUSE;
+			return;
+		}
+	}
+
+	// collison with the racket
+	if ((ball->coordinate.pos_x > (-10 - ball->size)) &&
+		(ball->coordinate.pos_y < (racket->coordinate.pos_y + racket->size)) &&
+		(ball->coordinate.pos_y > (racket->coordinate.pos_y - racket->size)) &&
+		(ball->coordinate.pos_z < (racket->coordinate.pos_z + racket->size)) &&
+		ball->coordinate.pos_z > (racket->coordinate.pos_z - racket->size))
+	{
+
+		// max speed of the ball
+		float maxSpeed = 0.2;
+
+		// change the direction of the ball
+		ball->speed.x = -fabs(ball->speed.x);
+
+		ball->speed.y = ((ball->coordinate.pos_y - racket->coordinate.pos_y) / racket->size) / 5;
+		ball->speed.z = ((ball->coordinate.pos_z - racket->coordinate.pos_z) / racket->size) / 5;
+
+		// normalize the speed
+		double norm = sqrt(pow(ball->speed.x, 2) + pow(ball->speed.y, 2) + pow(ball->speed.z, 2));
+
+		ball->speed.x = (ball->speed.x / norm) * maxSpeed;
+		ball->speed.y = (ball->speed.y / norm) * maxSpeed;
+		ball->speed.z = (ball->speed.z / norm) * maxSpeed;
+
 		return;
 	}
 
-	// collision with the start of the corridor (out of the game, game over)
+	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
 	if (ball->coordinate.pos_x > (-5 - ball->size))
 	{
-		// todo: handle lives count
-
-		// todo: delete when lives are implemented
-		ball->isSticky = true;
-		ball->color.r = 1.0f;
-		ball->color.g = 0.0f;
-		ball->color.b = 0.0f;
-		return;
+		printf("life: %d\n", lifeCount->current);
+		if (lifeCount->current > 0)
+		{
+			ball->isSticky = true;
+			lifeCount->current--;
+			return;
+		}
+		else
+		{
+			*status = GameStatus::GAME_OVER;
+			return;
+		}
 	}
 }
 
-void moveBall(Ball *ball, Racket *racket, bool isMoving)
+void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, GameStatus *status, Life *lifeCount)
 {
 	// todo: isSticky ?
 	if (ball->isSticky)
 		return;
 
-	handleCollision(ball, racket);
+	handleCollision(ball, racket, obstactes, status, lifeCount);
 
 	ball->coordinate.pos_x += ball->speed.x;
 	ball->coordinate.pos_y += ball->speed.y;
 	ball->coordinate.pos_z += ball->speed.z;
+}
 
-	if (isMoving)
-	{
-		ball->coordinate.pos_x += std::abs(ball->speed.x);
-	}
+void moveBallOnKey(Ball *ball)
+{
+	if (ball->isSticky)
+		return;
+
+	// TODO: handle collision (un oubli oups)
+	ball->coordinate.pos_x += std::abs(ball->speed.x);
 }
