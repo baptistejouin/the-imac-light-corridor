@@ -107,6 +107,9 @@ void drawLines(std::vector<Line *> *lines)
 
 void moveLines(std::vector<Line *> *lines)
 {
+	// if (ball->isSticky)
+	// 	return;
+
 	for (int i = 0; i < lines->size(); i++)
 	{
 		Line *current = lines->at(i);

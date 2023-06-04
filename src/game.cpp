@@ -15,7 +15,7 @@ void *initGame(Game *game)
 	game->textures = new std::map<const char *, TextureLoaded>;
 
 	game->life->max = 5;
-	game->life->current = 3;
+	game->life->current = 4;
 
 	game->cursor->x = 0.0f;
 	game->cursor->y = 0.0f;
@@ -57,6 +57,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 		if (game->status != GameStatus::PAUSE)
 		{
 			glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
+
 			/*
 			 *	Move the objects (auto)
 			 */
@@ -86,28 +87,16 @@ void gameLoop(GLFWwindow *window, Game *game)
 		// if we have the heart texture
 		if (game->textures->count("heart") > 0)
 			drawLifeCount(game->life, game->textures->at("heart").textureID);
-
-		// for (auto &texture : *game->textures)
-		// {
-		// 	stbi_image_free(texture.second.stbImage);
-		// 	glDeleteTextures(1, &texture.second.GLtexture);
-		// 	glBindTexture(GL_TEXTURE_2D, 0);
-		// }
 	}
 
 	if (game->status == GameStatus::GAME_OVER)
 	{
 		// todo: make menu for game over
-
-		glPushMatrix();
-		glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-		glTranslatef(0.0f, 0.0f, -5.0f);
-		drawSquare(false, 1.0f);
-		glPopMatrix();
 	}
 
 	if (game->status == GameStatus::MENU)
 	{
+		// todo: make menu on start
 	}
 }
 

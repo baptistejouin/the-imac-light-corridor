@@ -117,7 +117,6 @@ void moveBall(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstactes, Ga
 
 void moveBallOnKey(Ball *ball)
 {
-	// todo: isSticky ?
 	if (ball->isSticky)
 		return;
 

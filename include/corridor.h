@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <vector>
+
 #include "3D_tools.h"
 
 typedef struct Wall
