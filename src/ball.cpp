@@ -61,10 +61,10 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 
 	// collison with the racket
 	if ((ball->coordinate.pos_x > (-10 - ball->size)) &&
-		(ball->coordinate.pos_y < (racket->coordinate.pos_y + racket->size)) &&
-		(ball->coordinate.pos_y > (racket->coordinate.pos_y - racket->size)) &&
-		(ball->coordinate.pos_z < (racket->coordinate.pos_z + racket->size)) &&
-		ball->coordinate.pos_z > (racket->coordinate.pos_z - racket->size))
+		(ball->coordinate.pos_y - ball->size < (racket->coordinate.pos_y + racket->size)) &&
+		(ball->coordinate.pos_y + ball->size > (racket->coordinate.pos_y - racket->size)) &&
+		(ball->coordinate.pos_z - ball->size < (racket->coordinate.pos_z + racket->size)) &&
+		ball->coordinate.pos_z + ball->size > (racket->coordinate.pos_z - racket->size))
 	{
 		// max speed of the ball
 		float maxSpeed = 0.2;
