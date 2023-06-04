@@ -1,9 +1,22 @@
 #include "obstacle.h"
 
+static Color defaultColor = {0.36f, 0.38f, 0.7f, 1.0f};
+
+void updateObstacleColor(Obstacle *obstacle)
+{
+	// obstacle color is darken when it is near -40.0 and lighter when it is near 0.0
+	obstacle->color.b = defaultColor.b + (obstacle->coordinate.pos_x / 80.0);
+	obstacle->color.r = defaultColor.r + (obstacle->coordinate.pos_x / 80.0);
+	obstacle->color.g = defaultColor.g + (obstacle->coordinate.pos_x / 80.0);
+
+	// add transparency when obstacle is between -3 and 0, near to zero is more transparent
+	if (obstacle->coordinate.pos_x > -3.0)
+		obstacle->color.a = 0.3f + (obstacle->coordinate.pos_x / -3.0);
+	else
+		obstacle->color.a = 1.0f;
+}
 void drawObstacle(Obstacle *obstacle)
 {
-	Color obstacleColor = {0.5f, 0.8f, 0.0f, 1.0f};
-
 	glPushMatrix();
 
 	glTranslatef(obstacle->coordinate.pos_x, obstacle->coordinate.pos_y, obstacle->coordinate.pos_z);
@@ -14,7 +27,7 @@ void drawObstacle(Obstacle *obstacle)
 
 	glPushMatrix();
 
-	glColor4f(obstacleColor.r, obstacleColor.g, obstacleColor.b, obstacleColor.a);
+	glColor4f(obstacle->color.r, obstacle->color.g, obstacle->color.b, obstacle->color.a);
 
 	glScalef(obstacle->height, obstacle->width, 1.0f);
 
@@ -76,16 +89,18 @@ void addObstacle(std::vector<Obstacle *> *obstacles, int i, Racket *racket)
 	obstacle->coordinate.pos_x = -40.0f + i * 20.0;
 	obstacle->coordinate.pos_z = 0;
 
+	obstacle->color = defaultColor;
+
 	obstacle->id = i;
 
 	randomizeObstacle(obstacle, racket);
 
-	obstacle->speed.x = 0.2f;
+	updateObstacleColor(obstacle);
 
 	obstacles->push_back(obstacle);
 }
 
-void moveObstacles(std::vector<Obstacle *> *obstacles, Racket *racket)
+void moveObstacles(std::vector<Obstacle *> *obstacles, Racket *racket, float movingSpeed)
 {
 	for (int i = 0; i < obstacles->size(); i++)
 	{
@@ -98,7 +113,9 @@ void moveObstacles(std::vector<Obstacle *> *obstacles, Racket *racket)
 			randomizeObstacle(obstacle, racket);
 		}
 
-		obstacle->coordinate.pos_x += obstacle->speed.x;
+		obstacle->coordinate.pos_x += movingSpeed;
+
+		updateObstacleColor(obstacle);
 	}
 }
 

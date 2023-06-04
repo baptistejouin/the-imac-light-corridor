@@ -15,7 +15,6 @@ typedef struct Line
 {
 	Color color;
 	Coordinate coordinate;
-	Speed speed;
 } Line;
 
 void drawCorridor();
@@ -23,4 +22,4 @@ void drawWall(Color color);
 void drawLines(std::vector<Line *> *lines);
 void addLine(std::vector<Line *> *lines, int i);
 void drawLine(Line *line);
-void moveLines(std::vector<Line *> *lines);
+void moveLines(std::vector<Line *> *lines, float movingSpeed);

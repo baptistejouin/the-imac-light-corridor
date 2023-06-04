@@ -47,6 +47,34 @@ void onWindowResized(GLFWwindow *window, int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
+void onClick(GLFWwindow *window, int button, int action, int mods)
+{
+    if (action == GLFW_PRESS)
+    {
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            game->isMoving = true;
+            break;
+        case GLFW_MOUSE_BUTTON_RIGHT:
+            if (game->status == GameStatus::IN_GAME && game->ball->isSticky)
+            {
+                game->ball->isSticky = false;
+            }
+            break;
+        }
+    }
+    if (action == GLFW_RELEASE)
+    {
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            game->isMoving = false;
+            break;
+        }
+    }
+}
+
 void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
@@ -55,7 +83,12 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         {
         case GLFW_KEY_ESCAPE:
             closeGame(game);
-
+            break;
+        case GLFW_KEY_K:
+            if (game->status == GameStatus::IN_GAME)
+                game->status = GameStatus::PAUSE;
+            else if (game->status == GameStatus::PAUSE)
+                game->status = GameStatus::IN_GAME;
             break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -71,9 +104,6 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_R:
             if (game->status == GameStatus::GAME_OVER)
                 resetGame(game);
-            break;
-        case GLFW_KEY_SPACE:
-            game->isMoving = true;
             break;
         // add controls cam with directionals arrows
         case GLFW_KEY_UP:
@@ -138,9 +168,6 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
     {
         switch (key)
         {
-        case GLFW_KEY_SPACE:
-            game->isMoving = false;
-            break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             break;
@@ -176,7 +203,9 @@ int main(int argc, char **argv)
 
     glfwSetWindowSizeCallback(window, onWindowResized);
     glfwSetWindowAspectRatio(window, 16, 9);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetKeyCallback(window, onKey);
+    glfwSetMouseButtonCallback(window, onClick);
 
     onWindowResized(window, WINDOW_WIDTH, WINDOW_HEIGHT);
 

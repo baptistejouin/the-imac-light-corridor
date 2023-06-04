@@ -34,6 +34,7 @@ typedef struct Game
 	Racket *racket;
 	Ball *ball;
 	bool isMoving;
+	float movingSpeed;
 	Life *life;
 	std::vector<Obstacle *> *obstacles;
 	std::vector<Line *> *lines;
