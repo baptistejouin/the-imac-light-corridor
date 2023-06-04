@@ -9,6 +9,8 @@
 
 #define NB_SEG_CIRCLE 64
 
+struct TexturePosition;
+
 extern unsigned int WINDOW_WIDTH;
 extern unsigned int WINDOW_HEIGHT;
 extern unsigned int CAMERA_ZOOM;
@@ -34,6 +36,14 @@ typedef struct Speed
 	GLfloat x, y, z;
 } Speed;
 
+typedef struct TexturePosition
+{
+	Coordinate topLeft;
+	Coordinate topRight;
+	Coordinate bottomLeft;
+	Coordinate bottomRight;
+} TexturePosition;
+
 /* Camera parameters and functions */
 static const float Z_NEAR = 0.1f;
 static const float Z_FAR = 100.f;
@@ -45,7 +55,7 @@ extern float cam_z;
 void setCamera();
 
 /* Draw cannonic objet functions */
-void drawSquare(bool const filled = true, float const size = 1.0f);
+void drawSquare(bool const filled = true, float const size = 1.0f, GLuint textureID = 0, TexturePosition *texturePosition = nullptr);
 
 void drawCircle();
 void drawSphere(float const size, Color color);

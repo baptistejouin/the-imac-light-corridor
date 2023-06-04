@@ -1,33 +1,25 @@
 #include "lives.h"
 
-void drawCurrentHeart()
+void drawCurrentHeart(GLuint texture)
 {
-	glTexCoord2f(0.5f, 0.0f); // bottom right
-	glVertex3f(-1.0f, 1.0f, 0.0f);
+	TexturePosition texPos = {
+		{0.0f, 0.0f},
+		{0.0f, 0.5f},
+		{0.5f, 0.0f},
+		{0.5f, 0.5f},
+	};
+	drawSquare(true, 1.0f, texture, &texPos);
+};
 
-	glTexCoord2f(0.5f, 0.5f); // top right
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glTexCoord2f(0.0f, 0.5f); // top left
-	glVertex3f(1.0f, -1.0f, 0.0f);
-
-	glTexCoord2f(0.0f, 0.0f); // bottom left
-	glVertex3f(-1.0f, -1.0f, 0.0f);
-}
-
-void drawLostHeart()
+void drawLostHeart(GLuint texture)
 {
-	glTexCoord2f(1.0f, 0.0f); // bottom right
-	glVertex3f(-1.0f, 1.0f, 0.0f);
-
-	glTexCoord2f(1.0f, 0.5f); // top right
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glTexCoord2f(0.5f, 0.5f); // top left
-	glVertex3f(1.0f, -1.0f, 0.0f);
-
-	glTexCoord2f(0.5f, 0.0f); // bottom left
-	glVertex3f(-1.0f, -1.0f, 0.0f);
+	TexturePosition TexPos = {
+		{0.5f, 0.0f},
+		{0.5f, 0.5f},
+		{1.0f, 0.0f},
+		{1.0f, 0.5f},
+	};
+	drawSquare(true, 1.0f, texture, &TexPos);
 }
 
 void drawLive(GLuint heartTexture, LifeStatus status)
@@ -42,23 +34,13 @@ void drawLive(GLuint heartTexture, LifeStatus status)
 
 	glPushMatrix();
 
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, heartTexture);
-
-	glBegin(GL_QUADS);
-
 	if (status == LifeStatus::CURRENT)
-		drawCurrentHeart();
+		drawCurrentHeart(heartTexture);
 	else
-		drawLostHeart();
-
-	glEnd();
+		drawLostHeart(heartTexture);
 
 	glPopMatrix();
 	glPopMatrix();
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
 }
 
 void drawLifeCount(Life *lifeCount, GLuint heartTexture)

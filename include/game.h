@@ -10,6 +10,7 @@
 #include "corridor.h"
 #include "obstacle.h"
 #include "lives.h"
+#include "menu.h"
 
 struct TextureLoaded;
 struct Ball;

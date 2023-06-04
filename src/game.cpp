@@ -4,7 +4,6 @@ void *initGame(Game *game)
 {
 	int nbObstacte = 2;
 
-	// TODO: When the menu is implemented, the game should start in the menu
 	game->status = GameStatus::IN_GAME;
 	game->cursor = new Cursor;
 	game->ball = new Ball;
@@ -97,6 +96,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 	if (game->status == GameStatus::MENU)
 	{
 		// todo: make menu on start
+		drawMenu(&game->status);
 	}
 }
 
