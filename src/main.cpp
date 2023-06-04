@@ -54,10 +54,23 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         switch (key)
         {
         case GLFW_KEY_ESCAPE:
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
+            closeGame(game);
+
             break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            break;
+        case GLFW_KEY_P:
+            if (game->status == GameStatus::MENU)
+                game->status = GameStatus::IN_GAME;
+            break;
+        case GLFW_KEY_A: // Q for AZERTY
+            if (game->status == GameStatus::MENU || game->status == GameStatus::GAME_OVER)
+                closeGame(game);
+            break;
+        case GLFW_KEY_R:
+            if (game->status == GameStatus::GAME_OVER)
+                resetGame(game);
             break;
         case GLFW_KEY_SPACE:
             game->isMoving = true;
@@ -142,6 +155,7 @@ int main(int argc, char **argv)
 {
     /* GLFW initialisation */
     GLFWwindow *window;
+
     if (!glfwInit())
         return -1;
 
@@ -174,7 +188,10 @@ int main(int argc, char **argv)
     // random seed
     srand(time(0));
 
+    game->window = window;
+
     initGame(game);
+    initTextures(game);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -209,5 +226,6 @@ int main(int argc, char **argv)
     }
 
     glfwTerminate();
+    printf("Game closed\n");
     return 0;
 }

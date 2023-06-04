@@ -36,6 +36,14 @@ typedef struct Speed
 	GLfloat x, y, z;
 } Speed;
 
+typedef struct TextureLoaded
+{
+	GLuint textureID;
+	unsigned char *stbImage;
+	int width, height, nbChannels;
+
+} TextureLoaded;
+
 typedef struct TexturePosition
 {
 	Coordinate topLeft;
@@ -55,8 +63,7 @@ extern float cam_z;
 void setCamera();
 
 /* Draw cannonic objet functions */
-void drawSquare(bool const filled = true, float const size = 1.0f, GLuint textureID = 0, TexturePosition *texturePosition = nullptr);
-
+void drawSquare(bool const filled = true, float const size = 1.0f, TextureLoaded *texture = nullptr, TexturePosition *texturePosition = nullptr);
 void drawCircle();
 void drawSphere(float const size, Color color);
 

@@ -42,6 +42,8 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 
 		float margin = .8;
 
+		// TODO: check uniquement la collision avec le fond de l'obstacle uniquement (margin que d'un côté)
+		// TODO: check aussi si la balle est devant ou pas l'obstacle sur l'axe x pour evité les boucles de collisions
 		bool isCollisionX = ((ballX + ball->size >= (obstacleX - margin)) && (ballX <= (obstacleX + margin)));
 
 		bool isCollsionY = ((ball->coordinate.pos_y - ball->size < (obstacle->coordinate.pos_y + obstacle->width)) &&
@@ -88,6 +90,7 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
 	if (ball->coordinate.pos_x > (-5 - ball->size))
 	{
+		printf("life: %d\n", lifeCount->current);
 		if (lifeCount->current > 0)
 		{
 			ball->isSticky = true;

@@ -48,8 +48,16 @@ TextureLoaded loadTexture(const char *path, Game *game)
 void initTextures(Game *game)
 {
 	TextureLoaded heartTexture = loadTexture("assets/lifebar_16x16.png", game);
+	TextureLoaded logoTexture = loadTexture("assets/logo.png", game);
+	TextureLoaded gameOverTexture = loadTexture("assets/game-over.png", game);
+	TextureLoaded buttonPLay = loadTexture("assets/button-play.png", game);
+	TextureLoaded buttonQuit = loadTexture("assets/button-quit.png", game);
+	TextureLoaded buttonRetry = loadTexture("assets/button-retry.png", game);
 
 	game->textures->insert(std::make_pair("heart", heartTexture));
-
-	printf("id: %i\n", heartTexture.textureID);
+	game->textures->insert(std::make_pair("logo", logoTexture));
+	game->textures->insert(std::make_pair("game_over", gameOverTexture));
+	game->textures->insert(std::make_pair("play", buttonPLay));
+	game->textures->insert(std::make_pair("quit", buttonQuit));
+	game->textures->insert(std::make_pair("retry", buttonRetry));
 }

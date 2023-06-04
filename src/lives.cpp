@@ -1,6 +1,6 @@
 #include "lives.h"
 
-void drawCurrentHeart(GLuint texture)
+void drawCurrentHeart(TextureLoaded *texture)
 {
 	TexturePosition texPos = {
 		{0.0f, 0.0f},
@@ -11,7 +11,7 @@ void drawCurrentHeart(GLuint texture)
 	drawSquare(true, 1.0f, texture, &texPos);
 };
 
-void drawLostHeart(GLuint texture)
+void drawLostHeart(TextureLoaded *texture)
 {
 	TexturePosition TexPos = {
 		{0.5f, 0.0f},
@@ -22,7 +22,7 @@ void drawLostHeart(GLuint texture)
 	drawSquare(true, 1.0f, texture, &TexPos);
 }
 
-void drawLive(GLuint heartTexture, LifeStatus status)
+void drawLive(TextureLoaded *texture, LifeStatus status)
 {
 	glColor3f(1.0f, 1.0f, 1.0f);
 
@@ -35,34 +35,28 @@ void drawLive(GLuint heartTexture, LifeStatus status)
 	glPushMatrix();
 
 	if (status == LifeStatus::CURRENT)
-		drawCurrentHeart(heartTexture);
-	else
-		drawLostHeart(heartTexture);
+		drawCurrentHeart(texture);
+	else if (status == LifeStatus::LOST)
+		drawLostHeart(texture);
 
 	glPopMatrix();
 	glPopMatrix();
 }
 
-void drawLifeCount(Life *lifeCount, GLuint heartTexture)
+void drawLifeCount(Life *lifeCount, std::map<const char *, TextureLoaded> *textures)
 {
 	float xOffset = 0.0f;
+	int temp = 0;
 
-	for (int i = 0; i < lifeCount->current; i++)
+	for (int i = 0; i < lifeCount->max; i++)
 	{
+
 		glPushMatrix();
 		glTranslatef(0, xOffset, 0.0);
-		drawLive(heartTexture, LifeStatus::CURRENT);
+		drawLive(&textures->at("heart"), temp >= lifeCount->current ? LifeStatus::LOST : LifeStatus::CURRENT);
 		glPopMatrix();
 
-		xOffset += 0.5;
-	}
-	for (int i = 0; i < lifeCount->max - lifeCount->current; i++)
-	{
-		glPushMatrix();
-		glTranslatef(0, xOffset, 0.0);
-		drawLive(heartTexture, LifeStatus::LOST);
-		glPopMatrix();
-
+		temp++;
 		xOffset += 0.5;
 	}
 }

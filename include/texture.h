@@ -5,12 +5,4 @@
 
 struct Game;
 
-typedef struct TextureLoaded
-{
-	GLuint textureID;
-	unsigned char *stbImage;
-	int width, height, nbChannels;
-
-} TextureLoaded;
-
 void initTextures(Game *game);

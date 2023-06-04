@@ -12,7 +12,6 @@
 #include "lives.h"
 #include "menu.h"
 
-struct TextureLoaded;
 struct Ball;
 
 typedef struct Life
@@ -40,8 +39,10 @@ typedef struct Game
 	std::vector<Line *> *lines;
 	Cursor *cursor;
 	std::map<const char *, TextureLoaded> *textures;
+	GLFWwindow *window;
 } Game;
 
-void *initGame(Game *game);
+void initGame(Game *game, bool softInit = false);
 void gameLoop(GLFWwindow *window, Game *game);
 void closeGame(Game *game);
+void resetGame(Game *game);

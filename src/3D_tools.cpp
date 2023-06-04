@@ -19,40 +19,45 @@ float toRad(float deg)
 	return deg * M_PI / 180.0f;
 }
 
-void drawSquare(bool const filled, float const size, GLuint textureID, TexturePosition *texturePosition)
+void drawSquare(bool const filled, float const size, TextureLoaded *texture, TexturePosition *texturePosition)
 {
-	if (textureID != 0)
+	if (texture != nullptr)
 	{
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, textureID);
+		glBindTexture(GL_TEXTURE_2D, texture->textureID);
 	}
 
-	if (filled && textureID == 0)
+	if (filled && texture == nullptr)
 		glBegin(GL_TRIANGLE_FAN);
-	else if (!filled && textureID == 0)
+	else if (!filled && texture == nullptr)
 		glBegin(GL_LINE_LOOP);
 	else
 		glBegin(GL_QUADS);
 
-	if (textureID != 0)
+	if (texture != nullptr)
 	{
 		if (texturePosition == nullptr)
 		{
-			TexturePosition defaultTexPos = {{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
+			TexturePosition defaultTexPos = {{0.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}};
 			texturePosition = new TexturePosition(defaultTexPos);
 		}
 
+		// respect aspect ratio of the texture
+		float textureAspect = static_cast<float>(texture->width) / texture->height;
+		float height = size * textureAspect;
+		float width = size;
+
 		glTexCoord2f(texturePosition->bottomLeft.pos_x, texturePosition->bottomLeft.pos_y);
-		glVertex3f(-size, size, 0.0);
+		glVertex3f(-width, height, 0.0);
 
 		glTexCoord2f(texturePosition->bottomRight.pos_x, texturePosition->bottomRight.pos_y);
-		glVertex3f(size, size, 0.0);
+		glVertex3f(width, height, 0.0);
 
 		glTexCoord2f(texturePosition->topRight.pos_x, texturePosition->topRight.pos_y);
-		glVertex3f(size, -size, 0.0);
+		glVertex3f(width, -height, 0.0);
 
 		glTexCoord2f(texturePosition->topLeft.pos_x, texturePosition->topLeft.pos_y);
-		glVertex3f(-size, -size, 0.0);
+		glVertex3f(-width, -height, 0.0);
 
 		// draw order :
 		// 1 2
@@ -71,7 +76,7 @@ void drawSquare(bool const filled, float const size, GLuint textureID, TexturePo
 	}
 	glEnd();
 
-	if (textureID != 0)
+	if (texture != nullptr)
 	{
 
 		glDisable(GL_TEXTURE_2D);

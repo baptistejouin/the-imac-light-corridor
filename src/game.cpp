@@ -1,20 +1,19 @@
 #include "game.h"
 
-void *initGame(Game *game)
-{
-	int nbObstacte = 2;
+int nbObstacte = 2;
 
-	game->status = GameStatus::IN_GAME;
+void initGame(Game *game, bool softInit)
+{
+	game->status = softInit ? game->status : GameStatus::MENU;
 	game->cursor = new Cursor;
 	game->ball = new Ball;
 	game->racket = new Racket;
 	game->lines = new std::vector<Line *>;
 	game->obstacles = new std::vector<Obstacle *>;
 	game->life = new Life;
-	game->textures = new std::map<const char *, TextureLoaded>;
-
-	game->life->max = 5;
-	game->life->current = 4;
+	game->textures = softInit ? game->textures : new std::map<const char *, TextureLoaded>;
+	game->life->max = 3;
+	game->life->current = 2;
 
 	game->cursor->x = 0.0f;
 	game->cursor->y = 0.0f;
@@ -29,7 +28,10 @@ void *initGame(Game *game)
 	game->ball->coordinate.pos_y = 0.0f;
 	game->ball->coordinate.pos_z = 0.0f;
 	game->ball->speed.x = -0.3f;
+
+	// TODO: handle isSticky, (true when implemented)
 	game->ball->isSticky = false;
+
 	game->ball->color.r = 1.0f;
 	game->ball->color.g = 1.0f;
 	game->ball->color.b = 1.0f;
@@ -44,8 +46,6 @@ void *initGame(Game *game)
 	{
 		addLine(game->lines, i);
 	}
-
-	initTextures(game);
 }
 
 void gameLoop(GLFWwindow *window, Game *game)
@@ -82,21 +82,17 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawRacket(game->racket);
 		drawBall(game->ball);
 		drawObstacles(game->obstacles);
-
-		// if we have the heart texture
-		if (game->textures->count("heart") > 0)
-			drawLifeCount(game->life, game->textures->at("heart").textureID);
+		drawLifeCount(game->life, game->textures);
 	}
 
 	if (game->status == GameStatus::GAME_OVER)
 	{
-		// todo: make menu for game over
+		drawGameOver(&game->status, game->textures);
 	}
 
 	if (game->status == GameStatus::MENU)
 	{
-		// todo: make menu on start
-		drawMenu(&game->status);
+		drawMenu(&game->status, game->textures);
 	}
 }
 
@@ -107,13 +103,23 @@ void closeGame(Game *game)
 	delete game->racket;
 	delete game->obstacles;
 	delete game->lines;
+	delete game->life;
 
-	for (auto &texture : *game->textures)
+	for (auto texture = game->textures->begin(); texture != game->textures->end(); ++texture)
 	{
-		stbi_image_free(&texture.second.stbImage);
-		glDeleteTextures(1, &texture.second.textureID);
+		printf("Freeing texture: %s\n", texture->first);
+		glDeleteTextures(1, &texture->second.textureID);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	glfwTerminate();
+	printf("Closing game\n");
+	glfwSetWindowShouldClose(game->window, GLFW_TRUE);
+
+	delete game;
+}
+
+void resetGame(Game *game)
+{
+	game->status = GameStatus::IN_GAME;
+	initGame(game, true);
 }

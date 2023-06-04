@@ -4,8 +4,10 @@
 #include <GL/glu.h>
 
 #include "game.h"
+#include "texture.h"
 
 struct Life;
+struct TextureLoaded;
 
 enum LifeStatus
 {
@@ -13,4 +15,4 @@ enum LifeStatus
 	LOST
 };
 
-void drawLifeCount(Life *lifeCount, GLuint heartTexture);
+void drawLifeCount(Life *lifeCount, std::map<const char *, TextureLoaded> *textures);
