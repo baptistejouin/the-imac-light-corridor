@@ -53,11 +53,23 @@ void onClick(GLFWwindow *window, int button, int action, int mods)
     {
         switch (button)
         {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            game->isMoving = true;
+            break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             if (game->status == GameStatus::IN_GAME && game->ball->isSticky)
             {
                 game->ball->isSticky = false;
             }
+            break;
+        }
+    }
+    if (action == GLFW_RELEASE)
+    {
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            game->isMoving = false;
             break;
         }
     }
@@ -92,9 +104,6 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
         case GLFW_KEY_R:
             if (game->status == GameStatus::GAME_OVER)
                 resetGame(game);
-            break;
-        case GLFW_KEY_SPACE:
-            game->isMoving = true;
             break;
         // add controls cam with directionals arrows
         case GLFW_KEY_UP:
@@ -159,9 +168,6 @@ void onKey(GLFWwindow *window, int key, int scancode, int action, int mods)
     {
         switch (key)
         {
-        case GLFW_KEY_SPACE:
-            game->isMoving = false;
-            break;
         case GLFW_KEY_L:
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             break;
