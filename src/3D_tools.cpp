@@ -101,3 +101,35 @@ void drawSphere(float const size, Color color)
 	glColor4f(color.r, color.g, color.b, color.a);
 	gluSphere(gluNewQuadric(), size, NB_SEG_CIRCLE, NB_SEG_CIRCLE);
 }
+
+void drawCube(float const size, Color color)
+{
+	glColor4f(color.r, color.g, color.b, color.a);
+
+	// bottom face
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, size);
+	drawSquare(false, size, nullptr, nullptr);
+	glPopMatrix();
+
+	// top face
+	glPushMatrix();
+	glTranslatef(0.0f, 0.0f, -size);
+	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
+	drawSquare(false, size, nullptr, nullptr);
+	glPopMatrix();
+
+	// left face
+	glPushMatrix();
+	glTranslatef(-size, 0.0f, 0.0f);
+	glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+	drawSquare(false, size, nullptr, nullptr);
+	glPopMatrix();
+
+	// right face
+	glPushMatrix();
+	glTranslatef(size, 0.0f, 0.0f);
+	glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+	drawSquare(false, size, nullptr, nullptr);
+	glPopMatrix();
+}

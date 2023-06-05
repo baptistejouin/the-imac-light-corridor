@@ -1,15 +1,26 @@
 #include "ball.h"
 
+// max speed of the ball
+static float maxSpeed = 0.2;
+
 void drawBall(Ball *ball)
 {
 	glPushMatrix();
 	glTranslatef(ball->coordinate.pos_x, ball->coordinate.pos_y, ball->coordinate.pos_z);
-	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+	glColor4f(ball->color.r, ball->color.g, ball->color.b, ball->color.a);
 	drawSphere(ball->size, ball->color);
 	glPopMatrix();
 }
 
-void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
+void makeBallSticky(Ball *ball)
+{
+	ball->isSticky = true;
+	ball->speed.x = maxSpeed;
+	ball->speed.y = 0;
+	ball->speed.z = 0;
+}
+
+static void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
 {
 	// collision with the corridor (left, right)
 	if ((ball->coordinate.pos_y > (10 - ball->size)) || (ball->coordinate.pos_y < (-10 + ball->size)))
@@ -32,6 +43,7 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		return;
 	}
 
+	// collision with the obstacles
 	for (size_t i = 0; i < obstacles->size(); i++)
 	{
 		Obstacle *obstacle = obstacles->at(i);
@@ -39,22 +51,32 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		float ballX = ball->coordinate.pos_x + (10 - ball->size);
 		float obstacleX = obstacle->coordinate.pos_x;
 
-		float margin = .8;
+		float margin = 1.0;
 
-		// TODO: check uniquement la collision avec le fond de l'obstacle uniquement (margin que d'un côté)
-		// TODO: check aussi si la balle est devant ou pas l'obstacle sur l'axe x pour evité les boucles de collisions
-		bool isCollisionX = ((ballX + ball->size >= (obstacleX - margin)) && (ballX <= (obstacleX + margin)));
+		bool wasBallBehind = (ballX + ball->size <= obstacleX + margin);
+		bool wasBallInFront = (ballX + ball->size >= obstacleX - margin);
 
-		bool isCollsionY = ((ball->coordinate.pos_y - ball->size < (obstacle->coordinate.pos_y + obstacle->width)) &&
-							(ball->coordinate.pos_y + ball->size > (obstacle->coordinate.pos_y - obstacle->width)));
+		bool isCollisionX = wasBallBehind && wasBallInFront;
 
-		bool isCollsionZ = ((ball->coordinate.pos_z - ball->size < (obstacle->coordinate.pos_z + obstacle->height)) &&
-							(ball->coordinate.pos_z + ball->size > (obstacle->coordinate.pos_z - obstacle->height)));
+		bool isCollisionY = (ball->coordinate.pos_y - ball->size < obstacle->coordinate.pos_y + obstacle->width) &&
+							(ball->coordinate.pos_y + ball->size > obstacle->coordinate.pos_y - obstacle->width);
+		bool isCollisionZ = (ball->coordinate.pos_z - ball->size < obstacle->coordinate.pos_z + obstacle->height) &&
+							(ball->coordinate.pos_z + ball->size > obstacle->coordinate.pos_z - obstacle->height);
 
-		if (isCollisionX && isCollsionY && isCollsionZ)
+		if (isCollisionX && isCollisionY && isCollisionZ)
 		{
-			ball->speed.x = -ball->speed.x;
-			// *status = GameStatus::PAUSE;
+			// Check the velocity of the ball relative to the obstacle
+			bool isBallBehind = ball->speed.x > 0;
+
+			if (isBallBehind)
+			{
+				ball->speed.x = -fabs(ball->speed.x);
+			}
+			else
+			{
+				ball->speed.x = fabs(ball->speed.x);
+			}
+
 			return;
 		}
 	}
@@ -66,9 +88,6 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		(ball->coordinate.pos_z - ball->size < (racket->coordinate.pos_z + racket->size)) &&
 		ball->coordinate.pos_z + ball->size > (racket->coordinate.pos_z - racket->size))
 	{
-		// max speed of the ball
-		float maxSpeed = 0.2;
-
 		// change the direction of the ball
 		ball->speed.x = -fabs(ball->speed.x);
 
@@ -88,13 +107,12 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 		return;
 	}
 
-	// collision with the start of the corridor (out of the game, game over), (-5 is ball behind the racket)
+	// collision with the start of the corridor (out of the game, game over)
 	if (ball->coordinate.pos_x > (-10 - ball->size))
 	{
-		printf("life: %d\n", lifeCount->current);
 		if (lifeCount->current > 1)
 		{
-			ball->isSticky = true;
+			makeBallSticky(ball);
 			lifeCount->current--;
 			return;
 		}
