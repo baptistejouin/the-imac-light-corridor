@@ -8,6 +8,8 @@ void initGame(Game *game, bool softInit)
 	game->textures = softInit ? game->textures : new std::map<const char *, TextureLoaded>;
 	game->movingSpeed = 0.1f;
 
+	game->score = 1;
+
 	game->life = new Life;
 	game->life->max = 3;
 	game->life->current = game->life->max;
@@ -45,22 +47,25 @@ void initGame(Game *game, bool softInit)
 	{
 		addLine(game->lines, i);
 	}
+
+	game->bonus = new std::vector<Bonus *>;
 }
 
 void gameLoop(GLFWwindow *window, Game *game)
 {
-
 	if (game->status == GameStatus::IN_GAME || game->status == GameStatus::PAUSE)
 	{
 		if (game->status != GameStatus::PAUSE)
 		{
 			glfwGetCursorPos(window, &game->cursor->x, &game->cursor->y);
 
+			generateBonus(game->score, game->bonus);
 			/*
 			 *	Move the objects (auto)
 			 */
 			moveRacket(game->racket, game->cursor);
 			moveBall(game->ball, game->racket, game->obstacles, &game->status, game->life);
+			moveBonuss(game->bonus, game->ball, game->racket, game->life, game->movingSpeed, false);
 
 			/*
 			 *	Move the objects (on key)
@@ -70,6 +75,8 @@ void gameLoop(GLFWwindow *window, Game *game)
 				moveObstacles(game->obstacles, game->racket, game->movingSpeed);
 				moveLines(game->lines, game->movingSpeed);
 				moveBallOnKey(game->ball, game->movingSpeed);
+				moveBonuss(game->bonus, game->ball, game->racket, game->life, game->movingSpeed, true);
+				game->score += 1;
 			}
 		}
 
@@ -82,6 +89,7 @@ void gameLoop(GLFWwindow *window, Game *game)
 		drawBall(game->ball);
 		drawObstacles(game->obstacles);
 		drawLifeCount(game->life, game->textures);
+		drawBonuss(game->bonus);
 	}
 
 	if (game->status == GameStatus::PAUSE)

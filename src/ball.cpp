@@ -12,7 +12,15 @@ void drawBall(Ball *ball)
 	glPopMatrix();
 }
 
-void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
+void makeBallSticky(Ball *ball)
+{
+	ball->isSticky = true;
+	ball->speed.x = maxSpeed;
+	ball->speed.y = 0;
+	ball->speed.z = 0;
+}
+
+static void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstacles, GameStatus *status, Life *lifeCount)
 {
 	// collision with the corridor (left, right)
 	if ((ball->coordinate.pos_y > (10 - ball->size)) || (ball->coordinate.pos_y < (-10 + ball->size)))
@@ -62,12 +70,10 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 
 			if (isBallBehind)
 			{
-				printf("Ball is behind\n");
 				ball->speed.x = -fabs(ball->speed.x);
 			}
 			else
 			{
-				printf("Ball is in front\n");
 				ball->speed.x = fabs(ball->speed.x);
 			}
 
@@ -106,10 +112,7 @@ void handleCollision(Ball *ball, Racket *racket, std::vector<Obstacle *> *obstac
 	{
 		if (lifeCount->current > 1)
 		{
-			ball->isSticky = true;
-			ball->speed.x = maxSpeed;
-			ball->speed.y = 0;
-			ball->speed.z = 0;
+			makeBallSticky(ball);
 			lifeCount->current--;
 			return;
 		}

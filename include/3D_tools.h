@@ -95,3 +95,4 @@ void drawSphere(float const size, Color color);
 
 /* Small tools */
 float toRad(float deg);
+void drawCube(float const size, Color color);

@@ -11,8 +11,10 @@
 #include "obstacle.h"
 #include "lives.h"
 #include "menu.h"
+#include "bonus.h"
 
 struct Ball;
+struct Bonus;
 
 typedef struct Life
 {
@@ -30,17 +32,19 @@ enum class GameStatus
 
 typedef struct Game
 {
+	GLFWwindow *window;
 	GameStatus status;
-	Racket *racket;
 	Ball *ball;
-	bool isMoving;
-	float movingSpeed;
+	Racket *racket;
 	Life *life;
+	Cursor *cursor;
+	std::vector<Bonus *> *bonus;
 	std::vector<Obstacle *> *obstacles;
 	std::vector<Line *> *lines;
-	Cursor *cursor;
 	std::map<const char *, TextureLoaded> *textures;
-	GLFWwindow *window;
+	bool isMoving;
+	int score;
+	float movingSpeed;
 } Game;
 
 void initGame(Game *game, bool softInit = false);
