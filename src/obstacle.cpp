@@ -71,13 +71,6 @@ void randomizeObstacle(Obstacle *obstacle, Racket *racket)
 		obstacle->coordinate.pos_z = -4.5 + obstacle->height;
 	else
 		obstacle->coordinate.pos_z = 1 - (-4.5 + obstacle->height);
-
-	// printf("obstacle %d x position: %f\n", obstacle->id, obstacle->coordinate.pos_x);
-	// printf("obstacle %d z position: %f\n", obstacle->id, obstacle->coordinate.pos_z);
-	// printf("obstacle %d y position: %f\n", obstacle->id, obstacle->coordinate.pos_y);
-	// printf("obstacle %d width: %f\n", obstacle->id, obstacle->width);
-	// printf("obstacle %d height: %f\n", obstacle->id, obstacle->height);
-	// printf("\n");
 }
 
 void addObstacle(std::vector<Obstacle *> *obstacles, int i, Racket *racket)

@@ -8,14 +8,14 @@ void drawWall(Color color)
 
 	glTranslatef(-15.0, 0.0, 5.5);
 
-	// mur du bas
+	// bottom wall
 	glPushMatrix();
 	glColor4f(color.r, color.g, color.b, color.a);
 	glScalef(1.0f, 2.0f, 1.0f);
 	drawSquare(true, 5.0f);
 	glPopMatrix();
 
-	// mur du haut
+	// top wall
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, -10.0);
 	glColor4f(color.r, color.g, color.b, color.a);
@@ -23,7 +23,7 @@ void drawWall(Color color)
 	drawSquare(true, 5.0f);
 	glPopMatrix();
 
-	// mur de gauche
+	// left wall
 	glPushMatrix();
 	glColor4f(color.r - 0.1, color.g - 0.1, color.b - 0.1, color.a);
 	glRotatef(90, 1.0, 0.0, 0.0);
@@ -31,7 +31,7 @@ void drawWall(Color color)
 	drawSquare(true, 5.0f);
 	glPopMatrix();
 
-	// mur de droite
+	// right wall
 	glPushMatrix();
 	glColor4f(color.r - 0.1, color.g - 0.1, color.b - 0.1, color.a);
 	glRotatef(90, 1.0, 0.0, 0.0);
@@ -110,9 +110,6 @@ void drawLines(std::vector<Line *> *lines)
 
 void moveLines(std::vector<Line *> *lines, float movingSpeed)
 {
-	// if (ball->isSticky)
-	// 	return;
-
 	for (int i = 0; i < lines->size(); i++)
 	{
 		Line *current = lines->at(i);
