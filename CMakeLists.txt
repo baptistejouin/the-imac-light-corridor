@@ -20,15 +20,14 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # ---Add GLFW---
-if(APPLE AND CMAKE_SYSTEM_NAME MATCHES "Darwin")
+# if(APPLE AND CMAKE_SYSTEM_NAME MATCHES "Darwin")
     find_package(glfw3 REQUIRED)
-else()
-    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    add_subdirectory(third_party/glfw)
-endif()
-
+# else()
+#     set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+#     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+#     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+#     add_subdirectory(third_party/glfw)
+# endif()
 
 # Liens avec les librairies nécessaires
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENGL_LIBRARIES} glfw)
